@@ -201,6 +201,7 @@ function getResidentsDate($dateToSearch, $type) {
 }
 
 function getOutstanding($resident_id) {
+    global $link;
     $q = "SELECT * FROM bookings ".
          "WHERE resident_id=$resident_id AND (status='' OR status IS NULL OR status='accepted') ".
          "ORDER BY arrival DESC";
@@ -223,6 +224,7 @@ function getOutstanding($resident_id) {
 }
 
 function displayBirthdays() {
+    global $link;
     $today = date("Y", time()) . "-" . date("m", time()) . "-" . date("d", time());
     $condition_search = " AND bookings.arrival <= '$today' AND bookings.departure >= '$today' ";
 

@@ -200,6 +200,7 @@ if (mysqli_num_rows($r)) {
 $pdf->Output();
 
 function getRoomName($room_id) {
+    global $link;
     $room = "";
     if ($room_id) {
         $r = mysqli_query($link, "SELECT * FROM rooms WHERE room_id=$room_id");
