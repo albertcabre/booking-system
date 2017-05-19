@@ -6,7 +6,7 @@ $bookingQuery =
     "WHERE bookings.status='accepted' AND residents.resident_id={$arrInfo[resident_id]} " .
     $condition.
     "ORDER BY NAME, surname, bookings.arrival";
-$r2 = mysqli_query($link, $bookingQuery);
+$r2 = mysqli_query($bookingQuery);
 while ($arrData = mysqli_fetch_assoc($r2)) {
     $date_from = mostrar_fecha($arrData['arrival']);
     $date_to = mostrar_fecha($arrData['planned_departure']);
@@ -14,7 +14,7 @@ while ($arrData = mysqli_fetch_assoc($r2)) {
 
     // Search the name of the room
     if ($arrData[room_id]) {
-        $r3 = mysqli_query($link, "SELECT * FROM rooms WHERE room_id={$arrData[room_id]}");
+        $r3 = mysqli_query("SELECT * FROM rooms WHERE room_id={$arrData[room_id]}");
         $room = "";
         if (mysqli_numrows($r3)) {
             $room = mysqli_result($r3, 0, "room");

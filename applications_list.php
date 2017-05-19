@@ -22,7 +22,7 @@ if ($request[operation] == 'update') {
             if ($rules_date == "" || ($rules_date != "" && valid_date($rules_date))) {
                 $rules_date = change_format_date($rules_date);
                 $q = "UPDATE residents SET rules_date='$rules_date' WHERE resident_id=$id";
-                $r = mysqli_query($link, $q);
+                $r = mysqli_query($q);
             } else {
                 $error = TRUE;
             }
@@ -32,38 +32,38 @@ if ($request[operation] == 'update') {
             if ($offered_date == "" || ($offered_date != "" && valid_date($offered_date))) {
                 $offered_date = change_format_date($offered_date);
                 $q = "UPDATE residents SET offered_date='$offered_date' WHERE resident_id=$id";
-                $r = mysqli_query($link, $q);
+                $r = mysqli_query($q);
             } else {
                 $error = TRUE;
             }
 
             $q1 = "UPDATE residents SET rules=0 WHERE resident_id=$id";
             //ver("q",$q);
-            $r1 = mysqli_query($link, $q1);
+            $r1 = mysqli_query($q1);
 
             $q2 = "UPDATE residents SET interview=0 WHERE resident_id=$id";
             //ver("q",$q);
-            $r2 = mysqli_query($link, $q2);
+            $r2 = mysqli_query($q2);
 
             $q3 = "UPDATE residents SET offered=0 WHERE resident_id=$id";
             //ver("q",$q);
-            $r3 = mysqli_query($link, $q3);
+            $r3 = mysqli_query($q3);
         }
 
         if (substr($key, 0, 3) == "rul") {
             $q = "UPDATE residents SET rules=1 WHERE resident_id=$id";
             //ver("q",$q);
-            $r = mysqli_query($link, $q);
+            $r = mysqli_query($q);
         }
         if (substr($key, 0, 3) == "int") {
             $q = "UPDATE residents SET interview=1 WHERE resident_id=$id";
             //ver("q",$q);
-            $r = mysqli_query($link, $q);
+            $r = mysqli_query($q);
         }
         if (substr($key, 0, 3) == "off") {
             $q = "UPDATE residents SET offered=1 WHERE resident_id=$id";
             //ver("q",$q);
-            $r = mysqli_query($link, $q);
+            $r = mysqli_query($q);
         }
     }
 }
@@ -75,7 +75,7 @@ if ($request[sort_by] == "date") {
 } else {
     $sort = "ORDER BY resident_id DESC";
 }
-$r = mysqli_query($link, "SELECT r.*, c.country FROM residents r LEFT JOIN countries c ON r.country_id = c.country_id WHERE (r.status IS NULL || r.status = '') $sort");
+$r = mysqli_query("SELECT r.*, c.country FROM residents r LEFT JOIN countries c ON r.country_id = c.country_id WHERE (r.status IS NULL || r.status = '') $sort");
 if (mysqli_num_rows($r)) {
     ?>
     <div align="center" class="question">Received Applications<?= " (" . mysqli_num_rows($r) . ")" ?></div>

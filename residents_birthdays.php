@@ -16,7 +16,7 @@ validate_user();
             "LEFT JOIN countries ON residents.country_id=countries.country_id " .
             "WHERE bookings.status IN ('accepted','finished') " . $condition_search .
             "GROUP BY NAME, surname ORDER BY SUBSTR(date_of_birth,6,5), surname, name DESC";
-    $r = mysqli_query($link, $q);
+    $r = mysqli_query($q);
 
     if (mysqli_num_rows($r)) {
         ?>
@@ -45,7 +45,7 @@ validate_user();
                 "AND SUBSTR(date_of_birth,1,10)!='0000-00-00' " .
                 "GROUP BY NAME, surname ORDER BY SUBSTR(date_of_birth,6,5), surname, name DESC LIMIT 1";
         //ver("q",$q);
-        $r = mysqli_query($link, $q);
+        $r = mysqli_query($q);
         while ($arrData = mysqli_fetch_assoc($r)) {
             $age = date("Y") - substr($arrData[date_of_birth], 0, 4);
             $birthday_names.=$arrData[name] . " " . $arrData[surname] . " - " . mostrar_fecha(substr($arrData[date_of_birth], 0, 10)) . " (" . $age . ")<br>";
@@ -71,7 +71,7 @@ validate_user();
                     "WHERE bookings.status IN ('accepted','finished') " . $condition_search .
                     "AND SUBSTR(date_of_birth,1,10)!='0000-00-00' " .
                     "GROUP BY NAME, surname ORDER BY SUBSTR(date_of_birth,6,5), surname, name DESC";
-            $r = mysqli_query($link, $q);
+            $r = mysqli_query($q);
             while ($arrData = mysqli_fetch_assoc($r)) {
                 $birthday = "";
                 if (substr($arrData[date_of_birth], 5, 5) == date("m-d")) {
@@ -114,7 +114,7 @@ validate_user();
                 "WHERE bookings.status IN ('accepted','finished') " . $condition_search .
                 "AND SUBSTR(date_of_birth,1,10)='0000-00-00' " .
                 "GROUP BY NAME, surname DESC";
-        $r = mysqli_query($link, $q);
+        $r = mysqli_query($q);
         if (mysqli_num_rows($r)) {
             ?>
             <p class="question" align="center">People without birthday date</p>
