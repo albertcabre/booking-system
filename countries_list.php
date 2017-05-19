@@ -5,14 +5,14 @@ require_once('functions.php');
 validate_user();
 
 if ($request[operation]=="delete") {
-	$r=mysqli_query("DELETE FROM countries WHERE country_id={$request[delete_country_id]}");
+	$r=mysqli_query($link, "DELETE FROM countries WHERE country_id={$request[delete_country_id]}");
 } elseif ($request[operation]=="add") {
-	$r=mysqli_query("INSERT INTO countries (country) VALUES ('{$request[new_country]}')");
+	$r=mysqli_query($link, "INSERT INTO countries (country) VALUES ('{$request[new_country]}')");
 } elseif ($request[operation]=="save") {
 	foreach ($request as $key => $value) {
 		if (substr($key,0,7)=="country") {
 			$country_id=substr($key,8);
-			mysqli_query("UPDATE countries set country='$value' WHERE country_id=$country_id");
+			mysqli_query($link, "UPDATE countries set country='$value' WHERE country_id=$country_id");
 		}
 	}
 }
@@ -73,7 +73,7 @@ if ($request[op]=="e") {
 ?>
 </tr>
 <?php
-$r=mysqli_query("SELECT * FROM countries ORDER BY country");
+$r=mysqli_query($link, "SELECT * FROM countries ORDER BY country");
 while ($data=mysqli_fetch_assoc($r)) {
 	?>
 	<tr class="row1">

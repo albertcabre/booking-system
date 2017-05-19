@@ -6,7 +6,7 @@ require_once('functions.php');
 
 validate_user();
 
-$r=mysqli_query("SELECT * FROM residents "
+$r=mysqli_query($link, "SELECT * FROM residents "
     . "LEFT JOIN countries ON residents.country_id=countries.country_id "
     . "WHERE resident_id={$request[resident_id]}");
 $arrResident=mysqli_fetch_assoc($r);

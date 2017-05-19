@@ -66,7 +66,7 @@ if ($request[operation] == "accept") {
 </script>
 <?php
 $today = date("Y", time()) . "-" . date("m", time()) . "-" . date("d", time());
-$r = mysqli_query("SELECT r.*, c.country, b.room_id, b.arrival, b.planned_departure, b.booking_date FROM residents r
+$r = mysqli_query($link, "SELECT r.*, c.country, b.room_id, b.arrival, b.planned_departure, b.booking_date FROM residents r
 LEFT JOIN bookings b ON r.resident_id=b.resident_id
 LEFT JOIN countries c ON r.country_id = c.country_id WHERE b.status = 'accepted'
 AND b.arrival > '$today' ORDER BY b.arrival, r.name, r.surname");
@@ -105,8 +105,8 @@ if (mysqli_num_rows($r)) {
             <?php
         }
         while ($arrData = mysqli_fetch_assoc($r)) {
-            //$r2=mysqli_query("SELECT room, telephone FROM bookings LEFT JOIN rooms ON bookings.room_id=rooms.room_id WHERE resident_id={$arrData[resident_id]} AND status='accepted'");
-            $r2 = mysqli_query("SELECT room, telephone FROM rooms WHERE room_id={$arrData[room_id]}");
+            //$r2=mysqli_query($link, "SELECT room, telephone FROM bookings LEFT JOIN rooms ON bookings.room_id=rooms.room_id WHERE resident_id={$arrData[resident_id]} AND status='accepted'");
+            $r2 = mysqli_query($link, "SELECT room, telephone FROM rooms WHERE room_id={$arrData[room_id]}");
             if (mysqli_num_rows($r2)) {
                 $room = mysqli_result($r2, 0, "room");
                 $telephone = mysqli_result($r2, 0, "telephone");

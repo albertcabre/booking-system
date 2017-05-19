@@ -66,7 +66,7 @@ validate_user();
              "OR ukphone     LIKE '%{$request[name]}%' ".
              "OR college     LIKE '%{$request[name]}%' ".
              "OR nationality LIKE '%{$request[name]}%' ";
-        $r = mysqli_query($q);
+        $r = mysqli_query($link, $q);
     } else {
         $today = date("Y", time()) . "-" . date("m", time()) . "-" . date("d", time());
         if (!isset($request[academic_year]) || $request[academic_year] == "current") {
@@ -121,7 +121,7 @@ validate_user();
              "WHERE (bookings.status='accepted' OR bookings.status='finished') " .
              $condition_search .
              "GROUP BY NAME, surname $sort";
-        $r = mysqli_query($q);
+        $r = mysqli_query($link, $q);
     }
 
     if (mysqli_num_rows($r)) {
@@ -266,9 +266,9 @@ validate_user();
                                         echo "selected";
                                     } ?>>Short stages</option>
                                     <?php
-                                    $r2 = mysqli_query("SELECT SUBSTR(arrival,1,4) AS year FROM bookings GROUP BY year");
+                                    $r2 = mysqli_query($link, "SELECT SUBSTR(arrival,1,4) AS year FROM bookings GROUP BY year");
                                     while ($arrYears = mysqli_fetch_assoc($r2)) {
-                                        $r3 = mysqli_query("SELECT count(*) AS total FROM bookings WHERE arrival>='{$arrYears[year]}-09-01'");
+                                        $r3 = mysqli_query($link, "SELECT count(*) AS total FROM bookings WHERE arrival>='{$arrYears[year]}-09-01'");
                                         if (mysqli_result($r3, 0, "total") > 0) {
                                             $year1 = $arrYears[year];
                                             $year2 = $arrYears[year] + 1;

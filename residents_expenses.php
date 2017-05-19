@@ -64,7 +64,7 @@ $arrClasses = array();
 
 if ($request[operation] == "delete_account") {
     $q = "UPDATE bookings SET done=1 WHERE booking_id={$request[booking_id_to_delete]}";
-    $r = mysqli_query($q);
+    $r = mysqli_query($link, $q);
 } elseif ($request[operation] == "update") {
     foreach ($request as $key => $value) {
         //ver("key",$key);
@@ -82,7 +82,7 @@ if ($request[operation] == "delete_account") {
             } else {
                 $q = "UPDATE bookings SET weekly_rate='$ra' WHERE booking_id=$id";
                 //ver("q",$q);
-                $r = mysqli_query($q);
+                $r = mysqli_query($link, $q);
             }
         }
         if (substr($key, 0, 2) == "la") {
@@ -94,7 +94,7 @@ if ($request[operation] == "delete_account") {
             } else {
                 $q = "UPDATE bookings SET laundry='$la' WHERE booking_id=$id";
                 //ver("q",$q);
-                $r = mysqli_query($q);
+                $r = mysqli_query($link, $q);
             }
         }
         if (substr($key, 0, 2) == "hc") {
@@ -106,7 +106,7 @@ if ($request[operation] == "delete_account") {
             } else {
                 $q = "UPDATE bookings SET hc='$hc' WHERE booking_id=$id";
                 //ver("q",$q);
-                $r = mysqli_query($q);
+                $r = mysqli_query($link, $q);
             }
         }
         if (substr($key, 0, 2) == "pr") {
@@ -118,7 +118,7 @@ if ($request[operation] == "delete_account") {
             } else {
                 $q = "UPDATE bookings SET printing='$pr' WHERE booking_id=$id";
                 //ver("q",$q);
-                $r = mysqli_query($q);
+                $r = mysqli_query($link, $q);
             }
         }
         if (substr($key, 0, 2) == "ex") {
@@ -130,7 +130,7 @@ if ($request[operation] == "delete_account") {
             } else {
                 $q = "UPDATE bookings SET extra='$ex' WHERE booking_id=$id";
                 //ver("q",$q);
-                $r = mysqli_query($q);
+                $r = mysqli_query($link, $q);
             }
         }
         if (substr($key, 0, 2) == "re") {
@@ -142,7 +142,7 @@ if ($request[operation] == "delete_account") {
             } else {
                 $q = "UPDATE bookings SET received='$re' WHERE booking_id=$id";
                 //ver("q",$q);
-                $r = mysqli_query($q);
+                $r = mysqli_query($link, $q);
             }
         }
         if (substr($key, 0, 2) == "bi") {
@@ -152,12 +152,12 @@ if ($request[operation] == "delete_account") {
                 $q = "UPDATE bookings SET billed=0 WHERE booking_id=$id";
             }
             //ver("q",$q);
-            $r = mysqli_query($q);
+            $r = mysqli_query($link, $q);
         }
         if (substr($key, 0, 2) == "in") {
             $q = "UPDATE bookings SET invoice_number='$value' WHERE booking_id=$id";
             //ver("q",$q);
-            $r = mysqli_query($q);
+            $r = mysqli_query($link, $q);
         }
     }
 }
@@ -208,7 +208,7 @@ $q = "SELECT residents.resident_id, NAME, surname " .
      "AND bookings.done=0 " .
      $condition.
      "GROUP BY residents.resident_id ORDER BY surname, NAME";
-$r = mysqli_query($q);
+$r = mysqli_query($link, $q);
 if (mysqli_num_rows($r)) {
     ?>
     <table width="<?= $width ?>" align="center" border="0" cellpadding="4" cellspacing="0">

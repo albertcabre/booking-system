@@ -41,7 +41,7 @@ $q = "SELECT residents.resident_id, NAME, surname ".
      "FROM residents LEFT JOIN bookings ON residents.resident_id = bookings.resident_id " .
      "WHERE bookings.status='accepted' AND bookings.done=0 AND bookings.arrival <= '$today' " .
      "GROUP BY residents.resident_id ORDER BY surname, NAME";
-$r = mysqli_query($q);
+$r = mysqli_query($link, $q);
 if (mysqli_num_rows($r)) {
     $count = 0;
     while ($arrInfo = mysqli_fetch_assoc($r)) {
@@ -60,7 +60,7 @@ if (mysqli_num_rows($r)) {
         $q = "SELECT * FROM residents LEFT JOIN bookings ON residents.resident_id = bookings.resident_id " .
             "WHERE bookings.status='accepted' AND residents.resident_id={$arrInfo[resident_id]} " .
             "ORDER BY NAME, surname, bookings.arrival";
-        $r2 = mysqli_query($q);
+        $r2 = mysqli_query($link, $q);
         while ($arrData = mysqli_fetch_assoc($r2)) {
             $arrData = iso_8859_1_converter($arrData);
             if ($count == 1) {
@@ -202,7 +202,7 @@ $pdf->Output();
 function getRoomName($room_id) {
     $room = "";
     if ($room_id) {
-        $r = mysqli_query("SELECT * FROM rooms WHERE room_id=$room_id");
+        $r = mysqli_query($link, "SELECT * FROM rooms WHERE room_id=$room_id");
         if (mysqli_numrows($r)) {
             $room = mysqli_result($r, 0, "room");
         }

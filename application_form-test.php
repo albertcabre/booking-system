@@ -14,17 +14,17 @@ if ($_REQUEST[operation]=="delete_picture") {
 	} else {
 		$q="UPDATE residents SET deposit = '{$_REQUEST[deposit]}' WHERE resident_id = $resident_id";
 		//ver("q",$q);
-		mysqli_query($q);
+		mysqli_query($link, $q);
 	}
 } elseif ($_REQUEST[operation]=="delete_resident") {	
-	mysqli_query("DELETE FROM residents WHERE resident_id={$_REQUEST[resident_id]}");
-	mysqli_query("DELETE FROM bookings WHERE resident_id={$_REQUEST[resident_id]}");
+	mysqli_query($link, "DELETE FROM residents WHERE resident_id={$_REQUEST[resident_id]}");
+	mysqli_query($link, "DELETE FROM bookings WHERE resident_id={$_REQUEST[resident_id]}");
 	@unlink("residentsnh/".$_REQUEST[picture]);
 	?><script>document.location='admin.php?pagetoload=residents_list.php'</script><?
 } elseif ($_REQUEST[operation]=="change_status") {
 	$q="UPDATE bookings SET status='{$_REQUEST[status]}' WHERE booking_id={$_REQUEST[booking_id]}";
 	//ver("q",$q);
-	mysqli_query($q);
+	mysqli_query($link, $q);
 } elseif ($_REQUEST[operation]=="save") {
 	$date_of_birth=$_REQUEST[year]."-".$_REQUEST[month]."-".$_REQUEST[day];
 	$arriv = change_format_date($_REQUEST[arrival]);
@@ -57,13 +57,13 @@ if ($_REQUEST[operation]=="delete_picture") {
 		color = '{$_REQUEST[color]}' 
 		WHERE resident_id = $resident_id";
 		//ver("q",$q);
-		mysqli_query($q);
+		mysqli_query($link, $q);
 	} else {		
 		$today=date("Y-m-d H:m:s");
 		$q="INSERT INTO residents (name, surname, address_line1, address_line2, postal_code, city, county, country_id, nationality, r, telephone, mobile, email, date_of_birth, marital_status, smoker, college, subject, course, academic_year, arrival, departure, color, application_date) 
 		VALUES ('{$_REQUEST[name]}', '{$_REQUEST[surname]}', '{$_REQUEST[address_line1]}', '{$_REQUEST[address_line2]}', '{$_REQUEST[postal_code]}', '{$_REQUEST[city]}', '{$_REQUEST[county]}', '{$_REQUEST[country_id]}', '{$_REQUEST[nationality]}', '{$_REQUEST[r]}', '{$_REQUEST[telephone]}', '{$_REQUEST[mobile]}', '{$_REQUEST[email]}', '$date_of_birth', '{$_REQUEST[marital_status]}', '{$_REQUEST[smoker]}', '{$_REQUEST[college]}', '{$_REQUEST[subject]}', '{$_REQUEST[mycourse]}', '{$_REQUEST[academic_year]}', '$arriv', '$depar', '".random_color()."', '$today')";	
 		//ver("q",$q);
-		mysqli_query($q);
+		mysqli_query($link, $q);
 		$resident_id=mysqli_insert_id();		
 	}	
 } 
@@ -112,20 +112,20 @@ if ($_REQUEST[operation]=="refresh") {
 	if (!$error) {
 	 	$q="UPDATE bookings SET weekly_rate=$ra, laundry=$la, hc=$hc, printing=$pr, extra=$ex, received=$re, invoice_number='$in', departure='$ad' WHERE booking_id={$_REQUEST[booking_id]}";
 		//ver("q",$q);
-		$r=mysqli_query($q);
+		$r=mysqli_query($link, $q);
 	}		
 }
 
 if ($_REQUEST[operation]=="delete") {	
  	$q="DELETE FROM bookings WHERE booking_id={$_REQUEST[booking_id]}";
-	$r=mysqli_query($q);
+	$r=mysqli_query($link, $q);
 	
 	// Now we check if this resident doesn't have any other booking. If it is true then we move him to received applications.
 	$q="SELECT * FROM bookings WHERE resident_id={$_REQUEST[resident_id]}";
-	$r=mysqli_query($q);
+	$r=mysqli_query($link, $q);
 	if (mysqli_num_rows($r)==0) {		
 		$q="UPDATE residents SET status=NULL WHERE resident_id={$_REQUEST[resident_id]}";
-		$r=mysqli_query($q);
+		$r=mysqli_query($link, $q);
 	}
 }
 
@@ -243,7 +243,7 @@ function calculate(name){
 <br>
 <?
 if ($resident_id) {
-	$r=mysqli_query("SELECT * FROM residents WHERE resident_id=$resident_id");
+	$r=mysqli_query($link, "SELECT * FROM residents WHERE resident_id=$resident_id");
 	$arrData=mysqli_fetch_assoc($r);
 	//ver_array("",$arrData);
 }
@@ -382,7 +382,7 @@ if ($resident_id) {
                   <select name="country_id" disabled="disabled" class="normal_text">
                     <option></option>
                     <?
-					$r=mysqli_query("SELECT * FROM countries ORDER BY country");
+					$r=mysqli_query($link, "SELECT * FROM countries ORDER BY country");
 					while ($data=mysqli_fetch_assoc($r)) {
 						?>
                     	<option value="<?=$data[country_id]?>" <? if ($data[country_id]==$arrData[country_id]) { echo "selected"; } ?>><?=$data[country]?></option>
@@ -459,7 +459,7 @@ if ($resident_id) {
                 	<?
 					/*
 					if ($resident_id) {
-						$r=mysqli_query("SELECT * FROM bookings WHERE resident_id=$resident_id");
+						$r=mysqli_query($link, "SELECT * FROM bookings WHERE resident_id=$resident_id");
 						$div_num=1;
 						if (mysqli_num_rows($r)) {
 						*/
@@ -470,7 +470,7 @@ if ($resident_id) {
                 <?	
 				$total_outstanding=0;
 			if ($resident_id) {
-				$r=mysqli_query("SELECT * FROM bookings WHERE resident_id=$resident_id AND (status='' OR status IS NULL OR status='accepted') ORDER BY arrival DESC");
+				$r=mysqli_query($link, "SELECT * FROM bookings WHERE resident_id=$resident_id AND (status='' OR status IS NULL OR status='accepted') ORDER BY arrival DESC");
 				$num_of_accounts=mysqli_num_rows($r);
 				$accounts=0;
 				$total_outstanding=0;
@@ -485,7 +485,7 @@ if ($resident_id) {
 					
 					// Search the name of the room
 					if ($arrAccomodation[room_id]) {
-						$r2=mysqli_query("SELECT * FROM rooms WHERE room_id={$arrAccomodation[room_id]}");
+						$r2=mysqli_query($link, "SELECT * FROM rooms WHERE room_id={$arrAccomodation[room_id]}");
 						$room="";
 						if (mysqli_numrows($r2))
 							$room=mysqli_result($r2,0,"room");
@@ -594,7 +594,7 @@ if ($resident_id) {
 					$div_num++;
 					}																
 						
-				$r=mysqli_query("SELECT * FROM bookings WHERE resident_id=$resident_id AND status='finished' ORDER BY arrival DESC");
+				$r=mysqli_query($link, "SELECT * FROM bookings WHERE resident_id=$resident_id AND status='finished' ORDER BY arrival DESC");
 				while ($arrAccomodation=mysqli_fetch_assoc($r)) {		
 					$date_from       = mostrar_fecha($arrAccomodation['arrival']);
 					$date_to_planned = mostrar_fecha($arrAccomodation['departure']);
@@ -604,7 +604,7 @@ if ($resident_id) {
 		
 					// Search the name of the room
 					if ($arrAccomodation[room_id]) {
-						$r2=mysqli_query("SELECT * FROM rooms WHERE room_id={$arrAccomodation[room_id]}");
+						$r2=mysqli_query($link, "SELECT * FROM rooms WHERE room_id={$arrAccomodation[room_id]}");
 						$room = "";
 						if (mysqli_numrows($r2))
 							$room=mysqli_result($r2,0,"room");				

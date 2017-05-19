@@ -135,7 +135,7 @@ if (isset($request[mail_content]))
 			if (valid_email($value)) 
 			{
 				$id=substr($key,8);
-				$r2=mysqli_query("SELECT * FROM residents WHERE resident_id=$id");
+				$r2=mysqli_query($link, "SELECT * FROM residents WHERE resident_id=$id");
 				
 				// tags
 				$first_name = mysqli_result($r2, 0, "name");	
@@ -191,7 +191,7 @@ else
 			echo "<input type='hidden' name='resident$id' value='$value'>";
 
 			$id=substr($key,8);
-			$r2=mysqli_query("SELECT * FROM residents WHERE resident_id=$id");
+			$r2=mysqli_query($link, "SELECT * FROM residents WHERE resident_id=$id");
 			
 			$first_name = mysqli_result($r2, 0, "name");	
 			$last_name = mysqli_result($r2, 0, "surname");	

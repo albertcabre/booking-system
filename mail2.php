@@ -135,7 +135,7 @@ if (isset($request[mail_content]))
 			if (valid_email($value)) 
 			{
 				$id=substr($key,8);
-				$r2=mysqli_query("SELECT * FROM residents WHERE resident_id=$id");
+				$r2=mysqli_query($link, "SELECT * FROM residents WHERE resident_id=$id");
 				
 				// tags
 				$first_name = mysqli_result($r2, 0, "name");	
@@ -197,7 +197,7 @@ else
 			echo "<input type='hidden' name='resident$id' value='$value'>";
 
 			$id=substr($key,8);
-			$r2=mysqli_query("SELECT * FROM residents WHERE resident_id=$id");
+			$r2=mysqli_query($link, "SELECT * FROM residents WHERE resident_id=$id");
 			
 			$first_name = mysqli_result($r2, 0, "name");	
 			$last_name = mysqli_result($r2, 0, "surname");	
@@ -293,7 +293,7 @@ else
 	$total_outstanding=0;
 	if ($id) 
 	{
-		$r=mysqli_query("SELECT * FROM bookings WHERE resident_id=$id AND (status='' OR status IS NULL OR status='accepted') ORDER BY arrival DESC");
+		$r=mysqli_query($link, "SELECT * FROM bookings WHERE resident_id=$id AND (status='' OR status IS NULL OR status='accepted') ORDER BY arrival DESC");
 		$num_of_accounts=mysqli_num_rows($r);
 		$accounts=0;
 		$total_outstanding=0;
@@ -311,7 +311,7 @@ else
 			// Search the name of the room
 			if ($arrAccomodation[room_id]) 
 			{
-				$r2=mysqli_query("SELECT * FROM rooms WHERE room_id={$arrAccomodation[room_id]}");
+				$r2=mysqli_query($link, "SELECT * FROM rooms WHERE room_id={$arrAccomodation[room_id]}");
 				$room = "";
 				
 				if (mysqli_numrows($r2)) 

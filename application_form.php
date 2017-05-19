@@ -12,16 +12,16 @@ if ($request[operation] == "save_deposit") {
     } else {
         $q = "UPDATE residents SET deposit = '$request[deposit]' WHERE resident_id = $request[resident_id]";
         //ver("q",$q);
-        mysqli_query($q);
+        mysqli_query($link, $q);
     }
 } elseif ($request[operation] == "delete_resident") {
-    mysqli_query("DELETE FROM residents WHERE resident_id=$request[resident_id]");
-    mysqli_query("DELETE FROM bookings WHERE resident_id=$request[resident_id]");
+    mysqli_query($link, "DELETE FROM residents WHERE resident_id=$request[resident_id]");
+    mysqli_query($link, "DELETE FROM bookings WHERE resident_id=$request[resident_id]");
     @unlink("../residentsnh/" . $request[picture]);
     echo "<script>document.location='admin.php?pagetoload=residents_list.php';</script>";
 } elseif ($request[operation] == "change_status") {
     $q = "UPDATE bookings SET status='$request[status]' WHERE booking_id=$request[booking_id]";
-    mysqli_query($q);
+    mysqli_query($link, $q);
 } elseif ($request[operation] == "save") {
     $date_of_birth = $request[year] . "-" . $request[month] . "-" . $request[day];
     $arriv = change_format_date($request[arrival]);
@@ -54,12 +54,12 @@ if ($request[operation] == "save_deposit") {
                 deposit = \"$request[deposit]\",
                 color = \"$request[color]\"
                 WHERE resident_id = $request[resident_id]";
-        mysqli_query($q);
+        mysqli_query($link, $q);
     } else {
         $today = date("Y-m-d H:m:s");
         $q = "INSERT INTO residents (name, surname, address_line1, address_line2, postal_code, city, county, country_id, nationality, r, telephone, mobile, ukphone, email, date_of_birth, marital_status, smoker, college, subject, course, academic_year, arrival, departure, color, application_date)
 		VALUES (\"$request[name]\", \"$request[surname]\", \"$request[address_line1]\", \"$request[address_line2]\", \"$request[postal_code]\", \"$request[city]\", \"$request[county]\", \"$request[country_id]\", \"$request[nationality]\", \"$request[r]\", \"$request[telephone]\", \"$request[mobile]\", \"$request[ukphone]\", \"$request[email]\", \"$date_of_birth\", \"$request[marital_status]\", \"$request[smoker]\", \"$request[college]\", \"$request[subject]\", \"$request[mycourse]\", \"$request[academic_year]\", \"$arriv\", \"$depar\", \"" . random_color() . "\", \"$today\")";
-        mysqli_query($q);
+        mysqli_query($link, $q);
         $resident_id = mysqli_insert_id();
         $request[resident_id] = $resident_id;
     }
@@ -126,20 +126,20 @@ if ($request[operation] == "refresh") {
     }
     if (!$error) {
         $q = "UPDATE bookings SET weekly_rate=$ra, laundry=$la, hc=$hc, printing=$pr, extra=$ex, received=$re, invoice_number='$in', departure='$ad' WHERE booking_id=$request[booking_id]";
-        $r = mysqli_query($q);
+        $r = mysqli_query($link, $q);
     }
 }
 
 if ($request[operation] == "delete") {
     $q1 = "DELETE FROM bookings WHERE booking_id=$request[booking_id]";
-    $r1 = mysqli_query($q1);
+    $r1 = mysqli_query($link, $q1);
 
     // Now we check if this resident doesn't have any other booking. If it is true then we move him to received applications.
     $q2 = "SELECT * FROM bookings WHERE resident_id=$request[resident_id]";
-    $r2 = mysqli_query($q2);
+    $r2 = mysqli_query($link, $q2);
     if (mysqli_num_rows($r2) == 0) {
         $q3 = "UPDATE residents SET status=NULL WHERE resident_id=$request[resident_id]";
-        $r3 = mysqli_query($q3);
+        $r3 = mysqli_query($link, $q3);
     }
 }
 ?>
@@ -153,7 +153,7 @@ if ($request[operation] == "delete") {
 <br>
 <?php
 if ($request[resident_id]) {
-    $r = mysqli_query("SELECT * FROM residents WHERE resident_id=$request[resident_id]");
+    $r = mysqli_query($link, "SELECT * FROM residents WHERE resident_id=$request[resident_id]");
     $arrData = mysqli_fetch_assoc($r);
     $arrData = utf8_converter($arrData);
 }

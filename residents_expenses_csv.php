@@ -10,7 +10,7 @@ $arrResidents = array();
 $arrResidents[] = array("Name", "Outstanding");
 //The purpose of this page should only be to keep track of the residents who are currently in Netherhall.
 $today = date('Y-m-d');
-$r = mysqli_query("SELECT residents.resident_id, NAME, surname " .
+$r = mysqli_query($link, "SELECT residents.resident_id, NAME, surname " .
     "FROM residents LEFT JOIN bookings ON residents.resident_id = bookings.resident_id " .
     "WHERE bookings.status='accepted' AND bookings.done=0 AND bookings.arrival <= '$today' " .
     "GROUP BY residents.resident_id ORDER BY surname, NAME");
@@ -20,7 +20,7 @@ if (mysqli_num_rows($r)) {
 
         $total_outstanding = 0;
 
-        $r2 = mysqli_query("SELECT * FROM residents LEFT JOIN bookings ON residents.resident_id = bookings.resident_id " .
+        $r2 = mysqli_query($link, "SELECT * FROM residents LEFT JOIN bookings ON residents.resident_id = bookings.resident_id " .
             "WHERE bookings.status='accepted' AND residents.resident_id={$arrInfo[resident_id]} " .
             "ORDER BY NAME, surname, bookings.arrival");
         while ($arrData = mysqli_fetch_assoc($r2)) {

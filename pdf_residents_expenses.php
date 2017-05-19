@@ -45,7 +45,7 @@ $today = date('Y-m-d');
 $q = "SELECT residents.resident_id, NAME, surname FROM residents LEFT JOIN bookings ON residents.resident_id = bookings.resident_id " .
     "WHERE bookings.status='accepted' AND bookings.done=0 AND bookings.arrival <= '$today' " .
     "GROUP BY residents.resident_id ORDER BY surname, NAME";
-$r = mysqli_query($q);
+$r = mysqli_query($link, $q);
 if (mysqli_num_rows($r)) {
     while ($arrInfo = mysqli_fetch_assoc($r)) {
         $total_days = 0;
@@ -61,7 +61,7 @@ if (mysqli_num_rows($r)) {
         $q = "SELECT * FROM residents LEFT JOIN bookings ON residents.resident_id = bookings.resident_id " .
             "WHERE bookings.status='accepted' AND residents.resident_id={$arrInfo[resident_id]} " .
             "ORDER BY NAME, surname, bookings.arrival";
-        $r2 = mysqli_query($q);
+        $r2 = mysqli_query($link, $q);
         $count = 0;
         while ($arrData = mysqli_fetch_assoc($r2)) {
             $arrData = iso_8859_1_converter($arrData);
@@ -106,7 +106,7 @@ if (mysqli_num_rows($r)) {
 
             // Search the name of the room
             if ($arrData[room_id]) {
-                $r3 = mysqli_query("SELECT * FROM rooms WHERE room_id={$arrData[room_id]}");
+                $r3 = mysqli_query($link, "SELECT * FROM rooms WHERE room_id={$arrData[room_id]}");
                 $room = "";
                 if (mysqli_numrows($r3)) {
                     $room = mysqli_result($r3, 0, "room");

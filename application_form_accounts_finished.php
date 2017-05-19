@@ -3,7 +3,7 @@ require_once('functions.php');
 
 validate_user();
 
-$res_bookings = mysqli_query("SELECT * FROM bookings WHERE resident_id=$request[resident_id] AND status='finished' ORDER BY arrival DESC");
+$res_bookings = mysqli_query($link, "SELECT * FROM bookings WHERE resident_id=$request[resident_id] AND status='finished' ORDER BY arrival DESC");
 while ($arrAccomodation = mysqli_fetch_assoc($res_bookings)) {
     $date_from = mostrar_fecha($arrAccomodation['arrival']);
     $date_to_planned = mostrar_fecha($arrAccomodation['departure']);
@@ -13,7 +13,7 @@ while ($arrAccomodation = mysqli_fetch_assoc($res_bookings)) {
 
     // Search the name of the room
     if ($arrAccomodation[room_id]) {
-        $r2 = mysqli_query("SELECT * FROM rooms WHERE room_id=$arrAccomodation[room_id]");
+        $r2 = mysqli_query($link, "SELECT * FROM rooms WHERE room_id=$arrAccomodation[room_id]");
         $room = "";
         if (mysqli_numrows($r2)) {
             $room = mysqli_result($r2, 0, "room");

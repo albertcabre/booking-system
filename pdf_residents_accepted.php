@@ -38,7 +38,7 @@ LEFT JOIN rooms ON b.room_id=rooms.room_id
 LEFT JOIN countries c ON r.country_id = c.country_id WHERE b.status = 'accepted'
 AND b.arrival > '$today' ORDER BY b.arrival, r.name, r.surname";
 
-$r=mysqli_query($q);
+$r=mysqli_query($link, $q);
 
 $header="Accepted residents (".mysqli_num_rows($r).")";
 

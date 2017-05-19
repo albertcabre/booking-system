@@ -33,9 +33,9 @@
                 }
                 ?>>Short stays</option>
                 <?php
-                $r2 = mysqli_query("SELECT SUBSTR(arrival,1,4) AS year FROM bookings GROUP BY year");
+                $r2 = mysqli_query($link, "SELECT SUBSTR(arrival,1,4) AS year FROM bookings GROUP BY year");
                 while ($arrYears = mysqli_fetch_assoc($r2)) {
-                    $r3 = mysqli_query("SELECT count(*) AS total FROM bookings WHERE arrival>='{$arrYears[year]}-09-01'");
+                    $r3 = mysqli_query($link, "SELECT count(*) AS total FROM bookings WHERE arrival>='{$arrYears[year]}-09-01'");
                     if (mysqli_result($r3, 0, "total") > 0) {
                         $year1 = $arrYears[year];
                         $year2 = $arrYears[year] + 1;

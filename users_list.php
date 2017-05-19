@@ -5,12 +5,12 @@ require_once('functions.php');
 validate_user();
 
 if ($request[operation] == "delete") {
-    $r = mysqli_query("DELETE FROM user WHERE user_id=$request[delete_user_id]");
+    $r = mysqli_query($link, "DELETE FROM user WHERE user_id=$request[delete_user_id]");
 } elseif ($request[operation] == "add") {
     if (!filter_var($request[username], FILTER_VALIDATE_EMAIL)) {
         $emailErr = "Invalid email format";
     } else {
-        $r = mysqli_query("INSERT INTO user (username,password,sub_id) VALUES ('$request[username]','".md5($request[password])."','1')");
+        $r = mysqli_query($link, "INSERT INTO user (username,password,sub_id) VALUES ('$request[username]','".md5($request[password])."','1')");
         $request[username] = "";
         $request[password] = "";
     }
@@ -73,7 +73,7 @@ if ($request[operation] == "delete") {
         <input type="hidden" name="op" value="e">
         <tr class="header"><td class="titol_taula_list">Username</td><td class="titol_taula_list">Password</td></tr>
         <?php
-        $r = mysqli_query("SELECT * FROM user WHERE sub_id=1 ORDER BY username");
+        $r = mysqli_query($link, "SELECT * FROM user WHERE sub_id=1 ORDER BY username");
         $class = "file1";
         while ($data = mysqli_fetch_assoc($r)) {
             ?>

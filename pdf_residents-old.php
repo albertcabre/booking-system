@@ -21,7 +21,7 @@ $pdf->SetFont('Arial','B',10);
 $pdf->SetFillColor(255,255,255);
 
 if ($_REQUEST[name]!="") {
-	$r=mysqli_query("SELECT * FROM residents LEFT JOIN countries on residents.country_id = countries.country_id WHERE name LIKE '%{$_REQUEST[name]}%' OR surname LIKE '%{$_REQUEST[name]}%'");
+	$r=mysqli_query($link, "SELECT * FROM residents LEFT JOIN countries on residents.country_id = countries.country_id WHERE name LIKE '%{$_REQUEST[name]}%' OR surname LIKE '%{$_REQUEST[name]}%'");
 } else {
 	$today=date("Y",time())."-".date("m",time())."-".date("d",time());
 	if (!isset($_REQUEST[academic_year]) || $_REQUEST[academic_year]=="current") {
@@ -73,7 +73,7 @@ if ($_REQUEST[name]!="") {
 	GROUP BY NAME, surname
 	$sort";
 	//ver("q",$q);
-	$r=mysqli_query($q);
+	$r=mysqli_query($link, $q);
 }
 if ($_REQUEST[academic_year]=="" || $_REQUEST[academic_year]=="current") {
 	$header="Current residents (".mysqli_num_rows($r).")";
