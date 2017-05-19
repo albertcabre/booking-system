@@ -8,12 +8,7 @@ $username='';
 $password='';
 $dbname='';
 
-$conexion = mysql_connect($hostname, $username, $password);
-if (!$conexion) {
-	die(mysql_error());
-}
-
-$handle_db=mysql_select_db($dbname, $conexion);
-if (!$handle_db) {
-	die (mysql_error());
+$link = mysqli_connect($hostname, $username, $password, $dbname);
+if (!$link) {
+	die(mysqli_error());
 }

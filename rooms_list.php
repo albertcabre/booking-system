@@ -5,18 +5,18 @@ require_once('functions.php');
 validate_user();
 
 if ($request[operation]=="delete") {
-	$r=mysql_query("DELETE FROM rooms WHERE room_id={$request[delete_room_id]}");
+	$r=mysqli_query($link, "DELETE FROM rooms WHERE room_id={$request[delete_room_id]}");
 } elseif ($request[operation]=="add") {
-	$r=mysql_query("INSERT INTO rooms (room, telephone) VALUES ('{$request[new_room]}', '{$request[new_telephone]}')");
+	$r=mysqli_query($link, "INSERT INTO rooms (room, telephone) VALUES ('{$request[new_room]}', '{$request[new_telephone]}')");
 } elseif ($request[operation]=="save") {
 	foreach ($request as $key => $value) {
 		if (substr($key,0,4)=="room") {
 			$room_id=substr($key,5);
-			mysql_query("UPDATE rooms set room='$value' WHERE room_id=$room_id");
+			mysqli_query($link, "UPDATE rooms set room='$value' WHERE room_id=$room_id");
 		}
 		if (substr($key,0,9)=="telephone") {
 			$room_id=substr($key,10);
-			mysql_query("UPDATE rooms set telephone='$value' WHERE room_id=$room_id");
+			mysqli_query($link, "UPDATE rooms set telephone='$value' WHERE room_id=$room_id");
 		}
 	}
 }
@@ -92,9 +92,9 @@ if ($request[op]=="e") {
 ?>
 </tr>
 <?php
-$r=mysql_query("SELECT * FROM rooms ORDER BY room");
+$r=mysqli_query($link, "SELECT * FROM rooms ORDER BY room");
 $i=0;
-while ($data=mysql_fetch_assoc($r)) {
+while ($data=mysqli_fetch_assoc($r)) {
 	$i++;
 	?>
 	<tr class="row1">

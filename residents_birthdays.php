@@ -16,15 +16,15 @@ validate_user();
             "LEFT JOIN countries ON residents.country_id=countries.country_id " .
             "WHERE bookings.status IN ('accepted','finished') " . $condition_search .
             "GROUP BY NAME, surname ORDER BY SUBSTR(date_of_birth,6,5), surname, name DESC";
-    $r = mysql_query($q);
+    $r = mysqli_query($link, $q);
 
-    if (mysql_num_rows($r)) {
+    if (mysqli_num_rows($r)) {
         ?>
         <p class="question" align="center">Birthdays</p>
         <?php
         // TODAY
         $birthday_names = "";
-        while ($arrData = mysql_fetch_assoc($r)) {
+        while ($arrData = mysqli_fetch_assoc($r)) {
             if (substr($arrData[date_of_birth], 5, 5) == date("m-d")) {
                 $age = date("Y") - substr($arrData[date_of_birth], 0, 4);
                 $birthday_names.=$arrData[name] . " " . $arrData[surname] . " - " . mostrar_fecha(substr($arrData[date_of_birth], 0, 10)) . " (" . $age . ")<br>";
@@ -45,8 +45,8 @@ validate_user();
                 "AND SUBSTR(date_of_birth,1,10)!='0000-00-00' " .
                 "GROUP BY NAME, surname ORDER BY SUBSTR(date_of_birth,6,5), surname, name DESC LIMIT 1";
         //ver("q",$q);
-        $r = mysql_query($q);
-        while ($arrData = mysql_fetch_assoc($r)) {
+        $r = mysqli_query($link, $q);
+        while ($arrData = mysqli_fetch_assoc($r)) {
             $age = date("Y") - substr($arrData[date_of_birth], 0, 4);
             $birthday_names.=$arrData[name] . " " . $arrData[surname] . " - " . mostrar_fecha(substr($arrData[date_of_birth], 0, 10)) . " (" . $age . ")<br>";
         }
@@ -71,8 +71,8 @@ validate_user();
                     "WHERE bookings.status IN ('accepted','finished') " . $condition_search .
                     "AND SUBSTR(date_of_birth,1,10)!='0000-00-00' " .
                     "GROUP BY NAME, surname ORDER BY SUBSTR(date_of_birth,6,5), surname, name DESC";
-            $r = mysql_query($q);
-            while ($arrData = mysql_fetch_assoc($r)) {
+            $r = mysqli_query($link, $q);
+            while ($arrData = mysqli_fetch_assoc($r)) {
                 $birthday = "";
                 if (substr($arrData[date_of_birth], 5, 5) == date("m-d")) {
                     $birthday = "bgcolor=#C6DBFF";
@@ -114,8 +114,8 @@ validate_user();
                 "WHERE bookings.status IN ('accepted','finished') " . $condition_search .
                 "AND SUBSTR(date_of_birth,1,10)='0000-00-00' " .
                 "GROUP BY NAME, surname DESC";
-        $r = mysql_query($q);
-        if (mysql_num_rows($r)) {
+        $r = mysqli_query($link, $q);
+        if (mysqli_num_rows($r)) {
             ?>
             <p class="question" align="center">People without birthday date</p>
             <table border="0" align="center" cellpadding="0" cellspacing="0">
@@ -126,7 +126,7 @@ validate_user();
                     <td class="titol_taula_list"><a href="admin.php?pagetoload=residents_birthdays.php&sort_by=name" class="header_link2">Name</a></td>
                 </tr>
                 <?php
-                while ($arrData = mysql_fetch_assoc($r)) {
+                while ($arrData = mysqli_fetch_assoc($r)) {
                     ?>
                     <tr class="row1" onMouseOver="this.className = 'row_selected'" onMouseOut="this.className = 'row1'">
                         <td class="cell2" height="40" align="center" valign="middle">

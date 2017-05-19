@@ -6,18 +6,18 @@ $bookingQuery =
     "WHERE bookings.status='accepted' AND residents.resident_id={$arrInfo[resident_id]} " .
     $condition.
     "ORDER BY NAME, surname, bookings.arrival";
-$r2 = mysql_query($bookingQuery);
-while ($arrData = mysql_fetch_assoc($r2)) {
+$r2 = mysqli_query($link, $bookingQuery);
+while ($arrData = mysqli_fetch_assoc($r2)) {
     $date_from = mostrar_fecha($arrData['arrival']);
     $date_to = mostrar_fecha($arrData['planned_departure']);
     $days = subtract_dates($date_from, $date_to);
 
     // Search the name of the room
     if ($arrData[room_id]) {
-        $r3 = mysql_query("SELECT * FROM rooms WHERE room_id={$arrData[room_id]}");
+        $r3 = mysqli_query($link, "SELECT * FROM rooms WHERE room_id={$arrData[room_id]}");
         $room = "";
-        if (mysql_numrows($r3)) {
-            $room = mysql_result($r3, 0, "room");
+        if (mysqli_numrows($r3)) {
+            $room = mysqli_result($r3, 0, "room");
         }
     }
 
@@ -171,7 +171,7 @@ while ($arrData = mysql_fetch_assoc($r2)) {
 }
 
 // Display resident bookings total
-if (($operation == "simplified" && mysql_num_rows($r2) > 0) || ($operation != "simplified" && mysql_num_rows($r2) > 1)) {
+if (($operation == "simplified" && mysqli_num_rows($r2) > 0) || ($operation != "simplified" && mysqli_num_rows($r2) > 1)) {
     ?>
     <tr class="row1">
 

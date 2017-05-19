@@ -10,7 +10,7 @@ header('Content-Disposition: attachment; filename=netherhall-residents.csv');
 $fp = fopen('php://output', 'w');
 
 if ($request[name] != "") {
-    $r = mysql_query("SELECT * FROM residents " .
+    $r = mysqli_query($link, "SELECT * FROM residents " .
         "LEFT JOIN countries on residents.country_id = countries.country_id " .
         "WHERE name LIKE '%{$request[name]}%' OR surname LIKE '%{$request[name]}%'");
 } else {
@@ -64,21 +64,21 @@ if ($request[name] != "") {
         $condition_search .
         "GROUP BY NAME, surname $sort";
     //ver("q",$q);
-    $r = mysql_query($q);
+    $r = mysqli_query($link, $q);
 }
 if ($request[academic_year] == "" || $request[academic_year] == "current") {
-    $header = "Current residents (" . mysql_num_rows($r) . ")";
+    $header = "Current residents (" . mysqli_num_rows($r) . ")";
 } elseif ($request[academic_year] == "short") {
-    $header = "Short Stages (" . mysql_num_rows($r) . ")";
+    $header = "Short Stages (" . mysqli_num_rows($r) . ")";
 } else {
     $yearto = $request[academic_year] + 1;
-    $header = "Residents {$request[academic_year]} - $yearto (" . mysql_num_rows($r) . ")";
+    $header = "Residents {$request[academic_year]} - $yearto (" . mysqli_num_rows($r) . ")";
 }
 
 $header = array('name', 'surname', 'arrival', 'departure', 'room', 'telephone', 'UK phone', 'nationality');
 fputcsv($fp, $header);
 
-while ($arrData = mysql_fetch_array($r)) {
+while ($arrData = mysqli_fetch_array($r)) {
     $arrData2 = array();
     $arrData['barrival'] = ($arrData['barrival'] == "0000-00-00 00:00:00" ? "" : $arrData['barrival']);
     $arrData['bdeparture'] = ($arrData['bdeparture'] == "0000-00-00 00:00:00" ? "" : $arrData['bdeparture']);

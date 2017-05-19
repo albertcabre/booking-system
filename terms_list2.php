@@ -37,8 +37,8 @@ validate_user();
 <td width="50">To</td>
 </tr>
 <?php
-$r=mysql_query("SELECT * FROM terms ORDER BY name");
-while ($data=mysql_fetch_assoc($r)) {
+$r=mysqli_query($link, "SELECT * FROM terms ORDER BY name");
+while ($data=mysqli_fetch_assoc($r)) {
 	?>
 	<tr class="row1">
 	<td class="cell"><?=$data[name]?>&nbsp;</td>

@@ -67,9 +67,9 @@ for ($i=0; $i<$to; $i++) {
 $pdf->SetFont('Arial','',5);
 $pdf->Ln();
 
-$r=mysql_query("SELECT * FROM rooms as a LEFT JOIN room_type as b on a.room_type_id=b.room_type_id ORDER BY room");
+$r=mysqli_query($link, "SELECT * FROM rooms as a LEFT JOIN room_type as b on a.room_type_id=b.room_type_id ORDER BY room");
 $class="file1";
-while ($data=mysql_fetch_assoc($r)) {
+while ($data=mysqli_fetch_assoc($r)) {
 
 	$pdf->SetFillColor(192,192,192);	//#999999
 	$pdf->Cell(4.4,2.8,$data[room],$border,0,'C',true);
@@ -85,8 +85,8 @@ while ($data=mysql_fetch_assoc($r)) {
 		//AND status='accepted'
 		//ver("q",$q);
 
-		$r2=mysql_query($q2);
-		if (!mysql_num_rows($r2)) {
+		$r2=mysqli_query($link, $q2);
+		if (!mysqli_num_rows($r2)) {
 			// FREE ROOM
 			$color="#00CC33";
 
@@ -100,25 +100,25 @@ while ($data=mysql_fetch_assoc($r)) {
 			$surname="";
 		} else {
 			// BUSY ROOM
-			$resident_id=mysql_result($r2,0,"resident_id");
+			$resident_id=mysqli_result($r2,0,"resident_id");
 			if ($last_resident_id!=$resident_id) {
 				$last_resident_id=$resident_id;
 			}
 
-			$room_id=mysql_result($r2,0,"room_id");
+			$room_id=mysqli_result($r2,0,"room_id");
 			$q="SELECT name, surname, color FROM residents WHERE resident_id=$resident_id";
-			$r3=mysql_query($q);
+			$r3=mysqli_query($link, $q);
 			/*
-			$resident_name=@mysql_result($r3,0,"name");
-			$resident_name_surname=@mysql_result($r3,0,"name")." ".@mysql_result($r3,0,"surname");
-			$surname=@mysql_result($r3,0,"surname");
+			$resident_name=@mysqli_result($r3,0,"name");
+			$resident_name_surname=@mysqli_result($r3,0,"name")." ".@mysqli_result($r3,0,"surname");
+			$surname=@mysqli_result($r3,0,"surname");
 			*/
-			$color=mysql_result($r3,0,"color");
+			$color=mysqli_result($r3,0,"color");
 
-			$surname=mysql_result($r3,0,"surname");
-			$name=mysql_result($r3,0,"name");
+			$surname=mysqli_result($r3,0,"surname");
+			$name=mysqli_result($r3,0,"name");
 			if ($surname=="") {
-				$surname=mysql_result($r3,0,"name");
+				$surname=mysqli_result($r3,0,"name");
 				$name="";
 			}
 
@@ -127,11 +127,11 @@ while ($data=mysql_fetch_assoc($r)) {
 		}
 
 		$q="SELECT room FROM rooms WHERE room_id={$data[room_id]}";
-		$r3=mysql_query($q);
-		$room=mysql_result($r3,0,"room");
+		$r3=mysqli_query($link, $q);
+		$room=mysqli_result($r3,0,"room");
 
 		//$pdf->Cell(6,3,substr($surname,0,5),$border,0,'C',true);
-		if (!mysql_num_rows($r2)) {
+		if (!mysqli_num_rows($r2)) {
 			// FREE ROOM
 			$pdf->Cell(4.4,2.8,$room,$border,0,'C',true);
 		} else {

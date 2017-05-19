@@ -14,9 +14,9 @@ if ($request[username] === "" || $request[password] === "") {
 
 if ($request[password] != "") {
     $md5pwd = md5($request[password]);
-    $rc_admin = mysql_query("SELECT * FROM user WHERE username='$request[username]' AND password='$md5pwd'");
+    $rc_admin = mysqli_query($link, "SELECT * FROM user WHERE username='$request[username]' AND password='$md5pwd'");
     if ($rc_admin) {
-        if (mysql_num_rows($rc_admin) > 0) {
+        if (mysqli_num_rows($rc_admin) > 0) {
             $_SESSION['worldresidents_rgstrd'] = 1;
             $_SESSION['worldresidents_username'] = $request[username];
             header("Location: admin.php");

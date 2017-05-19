@@ -6,58 +6,58 @@ validate_user();
 
 if ($request[operation]=="delete")
 {
-	$r=mysql_query("DELETE FROM terms WHERE term_id={$request[delete_term_id]}");
+	$r=mysqli_query($link, "DELETE FROM terms WHERE term_id={$request[delete_term_id]}");
 }
 elseif ($request[operation]=="add")
 {
-	$r=mysql_query("INSERT INTO terms (name, t1_from, t1_to, t2_from, t2_to, t3_from, t3_to, t4_from, t4_to, t5_from, t5_to) VALUES ('{$request[new_name]}', '{$request[new_t1_from]}', '{$request[new_t1_to]}', '{$request[new_t2_from]}', '{$request[new_t2_to]}', '{$request[new_t3_from]}', '{$request[new_t3_to]}', '{$request[new_t4_from]}', '{$request[new_t4_to]}', '{$request[new_t5_from]}', '{$request[new_t5_to]}')");
+	$r=mysqli_query($link, "INSERT INTO terms (name, t1_from, t1_to, t2_from, t2_to, t3_from, t3_to, t4_from, t4_to, t5_from, t5_to) VALUES ('{$request[new_name]}', '{$request[new_t1_from]}', '{$request[new_t1_to]}', '{$request[new_t2_from]}', '{$request[new_t2_to]}', '{$request[new_t3_from]}', '{$request[new_t3_to]}', '{$request[new_t4_from]}', '{$request[new_t4_to]}', '{$request[new_t5_from]}', '{$request[new_t5_to]}')");
 }
 elseif ($request[operation]=="save")
 {
 	foreach ($request as $key => $value) {
 		if (substr($key,0,4)=="name") {
 			$term_id=substr($key,5);
-			mysql_query("UPDATE terms SET name='$value' WHERE term_id=$term_id");
+			mysqli_query($link, "UPDATE terms SET name='$value' WHERE term_id=$term_id");
 		}
 		if (substr($key,0,7)=="t1_from") {
 			$term_id=substr($key,8);
-			mysql_query("UPDATE terms SET t1_from='$value' WHERE term_id=$term_id");
+			mysqli_query($link, "UPDATE terms SET t1_from='$value' WHERE term_id=$term_id");
 		}
 		if (substr($key,0,5)=="t1_to") {
 			$term_id=substr($key,6);
-			mysql_query("UPDATE terms SET t1_to='$value' WHERE term_id=$term_id");
+			mysqli_query($link, "UPDATE terms SET t1_to='$value' WHERE term_id=$term_id");
 		}
 		if (substr($key,0,7)=="t2_from") {
 			$term_id=substr($key,8);
-			mysql_query("UPDATE terms SET t2_from='$value' WHERE term_id=$term_id");
+			mysqli_query($link, "UPDATE terms SET t2_from='$value' WHERE term_id=$term_id");
 		}
 		if (substr($key,0,5)=="t2_to") {
 			$term_id=substr($key,6);
-			mysql_query("UPDATE terms SET t2_to='$value' WHERE term_id=$term_id");
+			mysqli_query($link, "UPDATE terms SET t2_to='$value' WHERE term_id=$term_id");
 		}
 		if (substr($key,0,7)=="t3_from") {
 			$term_id=substr($key,8);
-			mysql_query("UPDATE terms SET t3_from='$value' WHERE term_id=$term_id");
+			mysqli_query($link, "UPDATE terms SET t3_from='$value' WHERE term_id=$term_id");
 		}
 		if (substr($key,0,5)=="t3_to") {
 			$term_id=substr($key,6);
-			mysql_query("UPDATE terms SET t3_to='$value' WHERE term_id=$term_id");
+			mysqli_query($link, "UPDATE terms SET t3_to='$value' WHERE term_id=$term_id");
 		}
 		if (substr($key,0,7)=="t4_from") {
 			$term_id=substr($key,8);
-			mysql_query("UPDATE terms SET t4_from='$value' WHERE term_id=$term_id");
+			mysqli_query($link, "UPDATE terms SET t4_from='$value' WHERE term_id=$term_id");
 		}
 		if (substr($key,0,5)=="t4_to") {
 			$term_id=substr($key,6);
-			mysql_query("UPDATE terms SET t4_to='$value' WHERE term_id=$term_id");
+			mysqli_query($link, "UPDATE terms SET t4_to='$value' WHERE term_id=$term_id");
 		}
 		if (substr($key,0,7)=="t5_from") {
 			$term_id=substr($key,8);
-			mysql_query("UPDATE terms SET t5_from='$value' WHERE term_id=$term_id");
+			mysqli_query($link, "UPDATE terms SET t5_from='$value' WHERE term_id=$term_id");
 		}
 		if (substr($key,0,5)=="t5_to") {
 			$term_id=substr($key,6);
-			mysql_query("UPDATE terms SET t5_to='$value' WHERE term_id=$term_id");
+			mysqli_query($link, "UPDATE terms SET t5_to='$value' WHERE term_id=$term_id");
 		}
 	}
 }
@@ -149,9 +149,9 @@ if ($request[op]=="e") {
 ?>
 </tr>
 <?php
-$r=mysql_query("SELECT * FROM terms ORDER BY name");
+$r=mysqli_query($link, "SELECT * FROM terms ORDER BY name");
 $class="file1";
-while ($data=mysql_fetch_assoc($r)) {
+while ($data=mysqli_fetch_assoc($r)) {
 	?>
 	<tr class="row1">
 	<td class="cell">

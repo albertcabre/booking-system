@@ -11,8 +11,8 @@ if ($request[operation] == "book") {
     $color = random_color();
 
     $q = "INSERT INTO groups (name,color,arrival,departure) VALUES ('{$request[group_name]}', '$color' , '$arrival', '$departure')";
-    $r = mysql_query($q);
-    $group_id = mysql_insert_id();
+    $r = mysqli_query($link, $q);
+    $group_id = mysqli_insert_id();
 
     foreach ($request as $key => $value) {
         //ver("",$key);
@@ -27,15 +27,15 @@ if ($request[operation] == "book") {
             $today = date("Y-m-d H:m:s");
             $q1 = "INSERT INTO residents (name,color, arrival, departure, application_date, status) " .
                     "VALUES ('{$request[group_name]} $nr', '$color', '$arrival', '$departure', '$today', 'accepted')";
-            mysql_query($q1);
-            $resident_id = mysql_insert_id();
+            mysqli_query($link, $q1);
+            $resident_id = mysqli_insert_id();
 
             $q2 = "INSERT INTO bookings (arrival, planned_departure, departure, room_id, resident_id, status, booking_date, group_id) " .
                     "VALUES ('$arrival', '$departure', '$departure', '$room_id', $resident_id, 'accepted', '$today', $group_id)";
-            mysql_query($q2);
+            mysqli_query($link, $q2);
 
             $q3 = "INSERT INTO residents_groups (group_id, resident_id) VALUES ('$group_id', '$resident_id')";
-            mysql_query($q3);
+            mysqli_query($link, $q3);
         }
     }
     ?><script>document.location = 'admin.php?pagetoload=groups_list.php';</script><?php
@@ -95,8 +95,8 @@ function book() {
                 <?php
                 // Searches the information of the resident.
                 if ($request[resident_id]) {
-                    $r = mysql_query("SELECT * FROM residents WHERE resident_id={$request[resident_id]}");
-                    $arrData = mysql_fetch_assoc($r);
+                    $r = mysqli_query($link, "SELECT * FROM residents WHERE resident_id={$request[resident_id]}");
+                    $arrData = mysqli_fetch_assoc($r);
                     ?>
                     <p align="center" class="question">
                         Booking a room for <?= $arrData[name] . " " . $arrData[surname] ?><br>for these dates
@@ -145,11 +145,11 @@ function book() {
                             " bookings.planned_departure BETWEEN '$date_fr' AND '$date_to' OR " .
                             " (bookings.arrival <= '$date_fr' AND bookings.planned_departure >= '$date_to') ) " .
                             "ORDER BY room";
-                    $r = mysql_query($q);
+                    $r = mysqli_query($link, $q);
                     if ($error) {
                         ?><p class="question" align="center"><?= $error ?></p><?php
                     }
-                    if (!mysql_num_rows($r)) {
+                    if (!mysqli_num_rows($r)) {
                         ?><p class="question" align="center">There are no available rooms for these dates</p><?php
                     } else {
                         ?>
@@ -158,7 +158,7 @@ function book() {
                         <table align="center" border="0" cellpadding="10" cellspacing="0">
                             <?php
                             $i = 0;
-                            while ($arrData = mysql_fetch_assoc($r)) {
+                            while ($arrData = mysqli_fetch_assoc($r)) {
                                 if ($i == 0) {
                                     ?>
                                     <tr>

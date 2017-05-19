@@ -66,7 +66,7 @@ validate_user();
              "OR ukphone     LIKE '%{$request[name]}%' ".
              "OR college     LIKE '%{$request[name]}%' ".
              "OR nationality LIKE '%{$request[name]}%' ";
-        $r = mysql_query($q);
+        $r = mysqli_query($link, $q);
     } else {
         $today = date("Y", time()) . "-" . date("m", time()) . "-" . date("d", time());
         if (!isset($request[academic_year]) || $request[academic_year] == "current") {
@@ -121,10 +121,10 @@ validate_user();
              "WHERE (bookings.status='accepted' OR bookings.status='finished') " .
              $condition_search .
              "GROUP BY NAME, surname $sort";
-        $r = mysql_query($q);
+        $r = mysqli_query($link, $q);
     }
 
-    if (mysql_num_rows($r)) {
+    if (mysqli_num_rows($r)) {
         ?>
         <table width="1200" border="0" align="center" cellpadding="0" cellspacing="0">
             <input type="hidden" name="pagetoload" value="residents_list.php">
@@ -178,7 +178,7 @@ validate_user();
 
             <?php
             $arrDataIDs = array();
-            while ($arrData = mysql_fetch_assoc($r)) {
+            while ($arrData = mysqli_fetch_assoc($r)) {
                 $arrData = utf8_converter($arrData);
                 // If we are searching then we need to filter by residnet ID otherwise we would have duplicates.
                 if ($request[name] != "") {
@@ -266,10 +266,10 @@ validate_user();
                                         echo "selected";
                                     } ?>>Short stages</option>
                                     <?php
-                                    $r2 = mysql_query("SELECT SUBSTR(arrival,1,4) AS year FROM bookings GROUP BY year");
-                                    while ($arrYears = mysql_fetch_assoc($r2)) {
-                                        $r3 = mysql_query("SELECT count(*) AS total FROM bookings WHERE arrival>='{$arrYears[year]}-09-01'");
-                                        if (mysql_result($r3, 0, "total") > 0) {
+                                    $r2 = mysqli_query($link, "SELECT SUBSTR(arrival,1,4) AS year FROM bookings GROUP BY year");
+                                    while ($arrYears = mysqli_fetch_assoc($r2)) {
+                                        $r3 = mysqli_query($link, "SELECT count(*) AS total FROM bookings WHERE arrival>='{$arrYears[year]}-09-01'");
+                                        if (mysqli_result($r3, 0, "total") > 0) {
                                             $year1 = $arrYears[year];
                                             $year2 = $arrYears[year] + 1;
                                             $academic_year_display = $year1 . "-" . $year2;

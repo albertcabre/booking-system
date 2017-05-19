@@ -7,10 +7,10 @@ validate_user();
 <LINK href="css/netherhall.css" rel="stylesheet" type="text/css">
 <?php
 if (isset($request[comments])) {
-	$r=mysql_query("UPDATE bookings SET comments='{$request[comments]}' WHERE booking_id={$request[booking_id]}");
+	$r=mysqli_query($link, "UPDATE bookings SET comments='{$request[comments]}' WHERE booking_id={$request[booking_id]}");
 }
-$r=mysql_query("SELECT comments FROM bookings WHERE booking_id={$request[booking_id]}");
-$arrData=mysql_fetch_assoc($r);
+$r=mysqli_query($link, "SELECT comments FROM bookings WHERE booking_id={$request[booking_id]}");
+$arrData=mysqli_fetch_assoc($r);
 ?>
 <br>
 <table align="center" border="0">

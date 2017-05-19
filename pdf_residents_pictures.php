@@ -21,7 +21,7 @@ $pdf->SetFont('Arial','B',10);
 $pdf->SetFillColor(255,255,255);
 
 if ($request[name]!="") {
-	$r=mysql_query("SELECT * FROM residents LEFT JOIN countries on residents.country_id = countries.country_id ".
+	$r=mysqli_query($link, "SELECT * FROM residents LEFT JOIN countries on residents.country_id = countries.country_id ".
                    "WHERE name LIKE '%{$request[name]}%' OR surname LIKE '%{$request[name]}%'");
 } else {
 	$today=date("Y",time())."-".date("m",time())."-".date("d",time());
@@ -80,15 +80,15 @@ if ($request[name]!="") {
 	GROUP BY NAME, surname
 	$sort";
 	//echo $q."<br>";
-	$r=mysql_query($q);
+	$r=mysqli_query($link, $q);
 }
 if ($request[academic_year]=="" || $request[academic_year]=="current") {
-	$header="Current residents (".mysql_num_rows($r).")";
+	$header="Current residents (".mysqli_num_rows($r).")";
 } elseif ($request[academic_year]=="short") {
-	$header="Short Stages (".mysql_num_rows($r).")";
+	$header="Short Stages (".mysqli_num_rows($r).")";
 } else {
 	$yearto=$request[academic_year]+1;
-	$header="Residents {$request[academic_year]} - $yearto (".mysql_num_rows($r).")";
+	$header="Residents {$request[academic_year]} - $yearto (".mysqli_num_rows($r).")";
 }
 
 $pdf->SetFont('Arial','B',12);
@@ -102,7 +102,7 @@ $pdf->SetFont('Arial','',9);
 $pdf->SetFillColor(255,255,255);
 
 $i=0;
-while ($arrData=mysql_fetch_assoc($r)) {
+while ($arrData=mysqli_fetch_assoc($r)) {
 	$i++;
 
 	$pdf->Cell(18,4,"Surname",$border);

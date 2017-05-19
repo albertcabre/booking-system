@@ -15,9 +15,9 @@ validate_user();
   Rate</td>
 </tr>
 <?php
-$r=mysql_query("SELECT * FROM room_type ORDER BY sort");
+$r=mysqli_query($link, "SELECT * FROM room_type ORDER BY sort");
 $class="file1";
-while ($data=mysql_fetch_assoc($r)) {
+while ($data=mysqli_fetch_assoc($r)) {
 	?>
 	<tr class="row1">
 	<td class="cell">

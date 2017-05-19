@@ -7,8 +7,8 @@ require_once('functions.php');
 validate_user();
 
 $resident_id = $request[resident_id];
-$r=mysql_query("SELECT * FROM residents LEFT JOIN countries ON residents.country_id=countries.country_id WHERE resident_id=$resident_id");
-$arrResident=mysql_fetch_assoc($r);
+$r=mysqli_query($link, "SELECT * FROM residents LEFT JOIN countries ON residents.country_id=countries.country_id WHERE resident_id=$resident_id");
+$arrResident=mysqli_fetch_assoc($r);
 
 //$pdf=new FPDF();
 $pdf=new PDF_MC_Table();
@@ -62,11 +62,11 @@ $pdf->Ln();
 
 $total_outstanding=0;
 if ($resident_id) {
-	$r=mysql_query("SELECT * FROM bookings WHERE resident_id=$resident_id AND (status='' OR status IS NULL OR status='accepted') ORDER BY arrival DESC");
-	$num_of_accounts=mysql_num_rows($r);
+	$r=mysqli_query($link, "SELECT * FROM bookings WHERE resident_id=$resident_id AND (status='' OR status IS NULL OR status='accepted') ORDER BY arrival DESC");
+	$num_of_accounts=mysqli_num_rows($r);
 	$accounts=0;
 	$total_outstanding=0;
-	while ($arrAccomodation=mysql_fetch_assoc($r)) {
+	while ($arrAccomodation=mysqli_fetch_assoc($r)) {
 		$accounts++;
 		//ver_array("arrAccomodation",$arrAccomodation);
 		$date_from = mostrar_fecha($arrAccomodation['arrival']);
@@ -76,10 +76,10 @@ if ($resident_id) {
 
 		// Search the name of the room
 		if ($arrAccomodation[room_id]) {
-			$r2=mysql_query("SELECT * FROM rooms WHERE room_id={$arrAccomodation[room_id]}");
+			$r2=mysqli_query($link, "SELECT * FROM rooms WHERE room_id={$arrAccomodation[room_id]}");
 			$room = "";
-			if (mysql_numrows($r2)) {
-				$room=mysql_result($r2,0,"room");
+			if (mysqli_numrows($r2)) {
+				$room=mysqli_result($r2,0,"room");
             }
 		}
 

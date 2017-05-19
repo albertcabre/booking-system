@@ -10,20 +10,20 @@ $arrResidents = array();
 $arrResidents[] = array("Name", "Outstanding");
 //The purpose of this page should only be to keep track of the residents who are currently in Netherhall.
 $today = date('Y-m-d');
-$r = mysql_query("SELECT residents.resident_id, NAME, surname " .
+$r = mysqli_query($link, "SELECT residents.resident_id, NAME, surname " .
     "FROM residents LEFT JOIN bookings ON residents.resident_id = bookings.resident_id " .
     "WHERE bookings.status='accepted' AND bookings.done=0 AND bookings.arrival <= '$today' " .
     "GROUP BY residents.resident_id ORDER BY surname, NAME");
-if (mysql_num_rows($r)) {
+if (mysqli_num_rows($r)) {
 
-    while ($arrInfo = mysql_fetch_assoc($r)) {
+    while ($arrInfo = mysqli_fetch_assoc($r)) {
 
         $total_outstanding = 0;
 
-        $r2 = mysql_query("SELECT * FROM residents LEFT JOIN bookings ON residents.resident_id = bookings.resident_id " .
+        $r2 = mysqli_query($link, "SELECT * FROM residents LEFT JOIN bookings ON residents.resident_id = bookings.resident_id " .
             "WHERE bookings.status='accepted' AND residents.resident_id={$arrInfo[resident_id]} " .
             "ORDER BY NAME, surname, bookings.arrival");
-        while ($arrData = mysql_fetch_assoc($r2)) {
+        while ($arrData = mysqli_fetch_assoc($r2)) {
             $date_from = mostrar_fecha($arrData['arrival']);
             $date_to = mostrar_fecha($arrData['planned_departure']);
 
@@ -43,7 +43,7 @@ if (mysql_num_rows($r)) {
             $name .= $arrData[name];
             $name = utf8_encode($name);
 
-            if (mysql_num_rows($r2) < 2) {
+            if (mysqli_num_rows($r2) < 2) {
                 $outstanding = number_format($outstanding, 2, ".", ",");
                 $arrResidents[] = array($name, $outstanding);
             }
@@ -51,7 +51,7 @@ if (mysql_num_rows($r)) {
             $total_outstanding = $total_outstanding + $outstanding;
             $total_outstanding = round($total_outstanding, 2);
         }
-        if (mysql_num_rows($r2) > 1) {
+        if (mysqli_num_rows($r2) > 1) {
             $total_outstanding = number_format($total_outstanding, 2, ".", ",");
             $arrResidents[] = array($name, $total_outstanding);
         }

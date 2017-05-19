@@ -79,7 +79,7 @@ $nextDay = date('d/m/Y', strtotime($dateToSearch . ' +1 day'));
 <?php
 function arrivals($dateToSearch) {
     $r = getResidentsDate($dateToSearch, 'arrivals');
-    if (mysql_num_rows($r)) {
+    if (mysqli_num_rows($r)) {
         ?>
         <table border="0" align="center" cellpadding="0" cellspacing="0">
             <tr>
@@ -95,7 +95,7 @@ function arrivals($dateToSearch) {
                 <td class="titol_taula_list" align="right">Deposit</td>
             </tr>
             <?php
-            while ($arrData = mysql_fetch_assoc($r)) {
+            while ($arrData = mysqli_fetch_assoc($r)) {
                 $arrData = utf8_converter($arrData);
                 $location = "document.location.href='admin.php?pagetoload=application_form.php&resident_id=$arrData[resident_id]&from=home.php'";
                 $goToResident = "onclick=\"$location\"";
@@ -129,7 +129,7 @@ function arrivals($dateToSearch) {
 
 function departures($dateToSearch) {
     $r = getResidentsDate($dateToSearch, 'departures');
-    if (mysql_num_rows($r)) {
+    if (mysqli_num_rows($r)) {
         ?>
         <table border="0" align="center" cellpadding="0" cellspacing="0">
             <tr>
@@ -147,7 +147,7 @@ function departures($dateToSearch) {
                 <td class="titol_taula_list_rigth">Total</td>
             </tr>
             <?php
-            while ($arrData = mysql_fetch_assoc($r)) {
+            while ($arrData = mysqli_fetch_assoc($r)) {
                 $arrData = utf8_converter($arrData);
                 $location = "document.location.href='admin.php?pagetoload=application_form.php&resident_id=$arrData[resident_id]&from=home.php'";
                 $goToResident = "onclick=\"$location\"";
@@ -196,16 +196,16 @@ function getResidentsDate($dateToSearch, $type) {
         "WHERE (bookings.status='accepted' OR bookings.status='finished') " .
         $condition .
         "GROUP BY NAME, surname";
-    return mysql_query($q);
+    return mysqli_query($link, $q);
 }
 
 function getOutstanding($resident_id) {
     $q = "SELECT * FROM bookings ".
          "WHERE resident_id=$resident_id AND (status='' OR status IS NULL OR status='accepted') ".
          "ORDER BY arrival DESC";
-    $r = mysql_query($q);
+    $r = mysqli_query($link, $q);
     $total_outstanding = 0;
-    while ($arrAccomodation = mysql_fetch_assoc($r)) {
+    while ($arrAccomodation = mysqli_fetch_assoc($r)) {
         $date_from = mostrar_fecha($arrAccomodation['arrival']);
         $date_to_planned = mostrar_fecha($arrAccomodation['planned_departure']);
         $days = subtract_dates($date_from, $date_to_planned);
@@ -231,15 +231,15 @@ function displayBirthdays() {
             "LEFT JOIN countries ON residents.country_id=countries.country_id " .
             "WHERE bookings.status IN ('accepted','finished') " . $condition_search .
             "GROUP BY NAME, surname ORDER BY SUBSTR(date_of_birth,6,5), surname, name DESC";
-    $r = mysql_query($q);
+    $r = mysqli_query($link, $q);
 
-    if (mysql_num_rows($r)) {
+    if (mysqli_num_rows($r)) {
         ?>
         <p class="question" align="center">Birthdays</p>
         <?php
         // TODAY
         $birthday_names = "";
-        while ($arrData = mysql_fetch_assoc($r)) {
+        while ($arrData = mysqli_fetch_assoc($r)) {
             //if (substr($arrData[date_of_birth], 5, 5) == date("m-d")) {
             if (substr($arrData[date_of_birth], 5, 5) == date("03-04")) {
                 $age = date("Y") - substr($arrData[date_of_birth], 0, 4);
@@ -261,8 +261,8 @@ function displayBirthdays() {
                 "AND SUBSTR(date_of_birth,1,10)!='0000-00-00' " .
                 "GROUP BY NAME, surname ORDER BY SUBSTR(date_of_birth,6,5), surname, name DESC LIMIT 1";
         //ver("q",$q);
-        $r = mysql_query($q);
-        while ($arrData = mysql_fetch_assoc($r)) {
+        $r = mysqli_query($link, $q);
+        while ($arrData = mysqli_fetch_assoc($r)) {
             $age = date("Y") - substr($arrData[date_of_birth], 0, 4);
             $birthday_names.=$arrData[name] . " " . $arrData[surname] . " - " . mostrar_fecha(substr($arrData[date_of_birth], 0, 10)) . " (" . $age . ")<br>";
         }

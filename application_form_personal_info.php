@@ -104,8 +104,8 @@ validate_user();
             <select name="country_id" disabled="disabled" class="normal_text">
                 <option></option>
                 <?php
-                $r = mysql_query("SELECT * FROM countries ORDER BY country");
-                while ($data = mysql_fetch_assoc($r)) {
+                $r = mysqli_query($link, "SELECT * FROM countries ORDER BY country");
+                while ($data = mysqli_fetch_assoc($r)) {
                     echo "<option value='$data[country_id]'";
                     if ($data[country_id] == $arrData[country_id]) {
                         echo 'selected';

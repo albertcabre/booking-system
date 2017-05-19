@@ -135,12 +135,12 @@ if (isset($request[mail_content]))
 			if (valid_email($value)) 
 			{
 				$id=substr($key,8);
-				$r2=mysql_query("SELECT * FROM residents WHERE resident_id=$id");
+				$r2=mysqli_query($link, "SELECT * FROM residents WHERE resident_id=$id");
 				
 				// tags
-				$first_name = mysql_result($r2, 0, "name");	
-				$last_name = mysql_result($r2, 0, "surname");	
-				$email = mysql_result($r2,0,"email");	
+				$first_name = mysqli_result($r2, 0, "name");	
+				$last_name = mysqli_result($r2, 0, "surname");	
+				$email = mysqli_result($r2,0,"email");	
 
 				$message = $request[mail_content];
 				$message = str_replace("@FIRST_NAME", $first_name, $message);
@@ -191,11 +191,11 @@ else
 			echo "<input type='hidden' name='resident$id' value='$value'>";
 
 			$id=substr($key,8);
-			$r2=mysql_query("SELECT * FROM residents WHERE resident_id=$id");
+			$r2=mysqli_query($link, "SELECT * FROM residents WHERE resident_id=$id");
 			
-			$first_name = mysql_result($r2, 0, "name");	
-			$last_name = mysql_result($r2, 0, "surname");	
-			$email = mysql_result($r2,0,"email");	
+			$first_name = mysqli_result($r2, 0, "name");	
+			$last_name = mysqli_result($r2, 0, "surname");	
+			$email = mysqli_result($r2,0,"email");	
 			$to_append = $first_name." ".$last_name." &lt;".$email."&gt;";
 			
 			if (valid_email($email)) 

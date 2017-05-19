@@ -5,7 +5,7 @@ validate_user();
 
 if ($request[operation]=="save") {
 	echo "save";
-	mysql_query("INSERT INTO residenst () VALUES ()");
+	mysqli_query($link, "INSERT INTO residenst () VALUES ()");
 }
 ?>
 <script type="text/javascript">

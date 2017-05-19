@@ -9,7 +9,7 @@ if ($request[operation] == "delete") {
     $delete_result = unlink($path);
     if ($delete_result == TRUE) {
         $q = "UPDATE residents SET picture='' WHERE resident_id=$request[resident_id]";
-        mysql_query($q);
+        mysqli_query($link, $q);
     }
 }
 ?>
@@ -24,8 +24,8 @@ if ($request[operation] == "delete") {
 <br>
 <?php
 if ($request[resident_id] > 0) {
-    $r = mysql_query("SELECT * FROM residents WHERE resident_id=$request[resident_id]");
-    $arrData = mysql_fetch_assoc($r);
+    $r = mysqli_query($link, "SELECT * FROM residents WHERE resident_id=$request[resident_id]");
+    $arrData = mysqli_fetch_assoc($r);
     $arrData = utf8_converter($arrData);
 }
 ?>

@@ -35,7 +35,7 @@ if ($request[operation] == "save") {
             informed_by = \"$request[informed_by]\"
             WHERE resident_id = $request[resident_id]";
 
-    $r = mysql_query($q);
+    $r = mysqli_query($link, $q);
 }
 ?>
 <script type="text/javascript">
@@ -53,8 +53,8 @@ if ($request[operation] == "save") {
 <br>
 <?php
 if ($request[resident_id]) {
-    $r = mysql_query("SELECT * FROM residents WHERE resident_id=$request[resident_id]");
-    $arrData = mysql_fetch_assoc($r);
+    $r = mysqli_query($link, "SELECT * FROM residents WHERE resident_id=$request[resident_id]");
+    $arrData = mysqli_fetch_assoc($r);
     $arrData = utf8_converter($arrData);
 }
 ?>

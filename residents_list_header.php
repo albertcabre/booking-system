@@ -14,7 +14,7 @@
                     echo "Residents {$request[academic_year]} - $yearto";
                     $the_academic_year = $request[academic_year];
                 }
-                echo " (" . mysql_num_rows($r) . ")";
+                echo " (" . mysqli_num_rows($r) . ")";
                 ?>
             </div>
         </td>
@@ -33,10 +33,10 @@
                 }
                 ?>>Short stays</option>
                 <?php
-                $r2 = mysql_query("SELECT SUBSTR(arrival,1,4) AS year FROM bookings GROUP BY year");
-                while ($arrYears = mysql_fetch_assoc($r2)) {
-                    $r3 = mysql_query("SELECT count(*) AS total FROM bookings WHERE arrival>='{$arrYears[year]}-09-01'");
-                    if (mysql_result($r3, 0, "total") > 0) {
+                $r2 = mysqli_query($link, "SELECT SUBSTR(arrival,1,4) AS year FROM bookings GROUP BY year");
+                while ($arrYears = mysqli_fetch_assoc($r2)) {
+                    $r3 = mysqli_query($link, "SELECT count(*) AS total FROM bookings WHERE arrival>='{$arrYears[year]}-09-01'");
+                    if (mysqli_result($r3, 0, "total") > 0) {
                         $year1 = $arrYears[year];
                         $year2 = $arrYears[year] + 1;
                         $academic_year = $year1 . "-" . $year2;

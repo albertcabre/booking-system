@@ -13,7 +13,7 @@ if ($request[operation]=="save") {
 		if ($arrival!="" && $departure!="") {
 			$q="UPDATE bookings SET arrival='$arrival', planned_departure='$departure', ".
                "room_id='{$request[room_id_new]}' WHERE booking_id={$request[booking_id]}";
-			mysql_query($q);
+			mysqli_query($link, $q);
 		} else {
 			$error=1;
 		}
@@ -24,9 +24,9 @@ if ($request[operation]=="save") {
 			$today=date("Y-m-d H:m:s");
 			$q="INSERT INTO bookings (arrival, planned_departure, departure, room_id, resident_id, status, booking_date) ".
                "VALUES ('$arrival', '$departure', '$departure', '{$request[room_id_new]}', $resident_id, 'accepted', '$today')";
-			mysql_query($q);
+			mysqli_query($link, $q);
 			$q="UPDATE residents SET status='accepted' WHERE resident_id={$request[resident_id]}";
-			mysql_query($q);
+			mysqli_query($link, $q);
 		}
 	}
 	//ver("q",$q);
@@ -37,9 +37,9 @@ if ($request[operation]=="save") {
 	$room_id_dest = $request['room_id_dest'];
     $book_id_dest = $request['booking_id_dest'];
 	$q1="UPDATE bookings SET room_id=$room_id_dest WHERE booking_id=$book_id";
-	mysql_query($q1);
+	mysqli_query($link, $q1);
 	$q2="UPDATE bookings SET room_id=$room_id WHERE booking_id=$book_id_dest";
-	mysql_query($q2);
+	mysqli_query($link, $q2);
 	?><script>document.location='admin.php?pagetoload=application_form.php&resident_id=<?=$resident_id?>&from=residents_list.php';</script><?php
 }
 ?>
@@ -104,8 +104,8 @@ $(function() {
 <?php
 // Get data from the resident (name and surname).
 if ($request[resident_id]) {
-	$r=mysql_query("SELECT * FROM residents WHERE resident_id={$request[resident_id]}");
-	$arrData=mysql_fetch_assoc($r);
+	$r=mysqli_query($link, "SELECT * FROM residents WHERE resident_id={$request[resident_id]}");
+	$arrData=mysqli_fetch_assoc($r);
     $arrData = utf8_converter($arrData);
 }
 $from_page="application_form.php&resident_id={$request[resident_id]}&from=residents_list.php";
@@ -137,17 +137,17 @@ $from_page="application_form.php&resident_id={$request[resident_id]}&from=reside
 	<?php
 	if (isset($request["booking_id"]) && $request["booking_id"]) {
 	    //Get info from the booking we want to change.
-		$r=mysql_query("SELECT * FROM bookings WHERE booking_id={$request[booking_id]}");
-		if (mysql_num_rows($r)) {
-			$arrAccomodation=mysql_fetch_assoc($r);
+		$r=mysqli_query($link, "SELECT * FROM bookings WHERE booking_id={$request[booking_id]}");
+		if (mysqli_num_rows($r)) {
+			$arrAccomodation=mysqli_fetch_assoc($r);
 			//Get 'from' and 'to' dates for this booking.
 			$booked_date_fr=substr($arrAccomodation['arrival'],8,2)."-".substr($arrAccomodation['arrival'],5,2)."-".substr($arrAccomodation['arrival'],0,4);
 			$booked_date_to=substr($arrAccomodation['planned_departure'],8,2)."-".substr($arrAccomodation['planned_departure'],5,2)."-".substr($arrAccomodation['planned_departure'],0,4);
 
 			// Search the name of the room
 			if ($arrAccomodation[room_id]) {
-				$r=mysql_query("SELECT * FROM rooms WHERE room_id={$arrAccomodation[room_id]}");
-				$room=mysql_result($r,0,"room");
+				$r=mysqli_query($link, "SELECT * FROM rooms WHERE room_id={$arrAccomodation[room_id]}");
+				$room=mysqli_result($r,0,"room");
 			}
 			?>
 			<input type="hidden" name="booking_id" value="<?=$arrAccomodation["booking_id"]?>">
@@ -219,11 +219,11 @@ $from_page="application_form.php&resident_id={$request[resident_id]}&from=reside
 			   "ORDER BY room";
 			//AND (status='accepted' OR status='finished') )
 			//ver("",$q);
-			$r=mysql_query($q);
+			$r=mysqli_query($link, $q);
 
 			$arrRoom    = array();
 			$arrRoomIds = array();
-			while ($arrDate=mysql_fetch_assoc($r)) {
+			while ($arrDate=mysqli_fetch_assoc($r)) {
 				$arrRooms[]   = $arrDate;
 				$arrRoomIds[] = $arrDate['room_id'];
 			}
@@ -236,9 +236,9 @@ $from_page="application_form.php&resident_id={$request[resident_id]}&from=reside
 				    "(arrival <= '$new_booked_date_fr' AND planned_departure >= '$new_booked_date_to')) AND ".
 				    "room_id = {$arrAccomodation[room_id]} AND status='accepted'";
 				//ver("q2",$q2);
-				$r2=mysql_query($q2);
-				if (mysql_num_rows($r2)==1) {
-					if (mysql_result($r2,0,"resident_id")==$request["resident_id"]) {
+				$r2=mysqli_query($link, $q2);
+				if (mysqli_num_rows($r2)==1) {
+					if (mysqli_result($r2,0,"resident_id")==$request["resident_id"]) {
 						$arrCurrent["room_id"] = $arrAccomodation["room_id"];
 						$arrCurrent["room"]    = $room;
 						$arrRooms[]   = $arrCurrent;
@@ -297,10 +297,10 @@ $from_page="application_form.php&resident_id={$request[resident_id]}&from=reside
                 // Select rooms that are not free.
                 $q="SELECT * FROM rooms WHERE room_id NOT IN (".implode(",",$arrRoomIds).") ORDER BY room";
                 //ver("q",$q);
-                $r=mysql_query($q);
+                $r=mysqli_query($link, $q);
                 $arrSwapRooms = array();
-                if (mysql_numrows($r)) {
-                    while ($arrData=mysql_fetch_assoc($r)) {
+                if (mysqli_numrows($r)) {
+                    while ($arrData=mysqli_fetch_assoc($r)) {
                         // See for each one of these rooms whether we can swap.
                         $q2="SELECT booking_id, room_id, arrival AS arr, planned_departure AS dep, resident_id FROM bookings ".
                             "WHERE (bookings.arrival           BETWEEN '$new_booked_date_fr' AND '$new_booked_date_to' ".
@@ -308,9 +308,9 @@ $from_page="application_form.php&resident_id={$request[resident_id]}&from=reside
                             "OR    (bookings.arrival <= '$new_booked_date_fr' AND bookings.planned_departure >= '$new_booked_date_to')) ".
                             "AND    bookings.room_id = {$arrData['room_id']}";
                         //ver("q2",$q2);
-                        $r2=mysql_query($q2);
-                        if (mysql_num_rows($r2)==1) {
-                            $arrData2=mysql_fetch_assoc($r2);
+                        $r2=mysqli_query($link, $q2);
+                        if (mysqli_num_rows($r2)==1) {
+                            $arrData2=mysqli_fetch_assoc($r2);
                             $booking_id = $arrData2['booking_id'];
                             $room_id    = $arrData2['room_id'];
                             $resi_id    = $arrData2['resident_id'];
@@ -327,15 +327,15 @@ $from_page="application_form.php&resident_id={$request[resident_id]}&from=reside
                                 "OR    (bookings.arrival <= '$arr' AND bookings.planned_departure >= '$dep')) ".
                                 "AND    bookings.room_id = $arrAccomodation[room_id]";
                             //ver("q2",$q2);
-                            $r2=mysql_query($q2);
-                            //echo "Num Bookings=".mysql_num_rows($r2)."<br>";
-                            if (mysql_num_rows($r2)==1) {
+                            $r2=mysqli_query($link, $q2);
+                            //echo "Num Bookings=".mysqli_num_rows($r2)."<br>";
+                            if (mysqli_num_rows($r2)==1) {
                                 // Search for resident name and surname.
                                 $q3="SELECT name, surname FROM residents WHERE resident_id = $resi_id";
                                 //ver("q3",$q3);
-                                $r3=mysql_query($q3);
-                                $name    = mysql_result($r3,0,"name");
-                                $surname = mysql_result($r3,0,"surname");
+                                $r3=mysqli_query($link, $q3);
+                                $name    = mysqli_result($r3,0,"name");
+                                $surname = mysqli_result($r3,0,"surname");
                                 $arrData['name']        = $name." ".$surname;
                                 $arrData['dates']       = $arrival." - ".$departure;
                                 $arrData['resident_id'] = $resi_id;

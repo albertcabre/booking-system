@@ -29,9 +29,9 @@ for ($i=0; $i<100; $i++) {
 ?>
 </tr>
 <?php
-$r=mysql_query("SELECT * FROM rooms as a LEFT JOIN room_type as b on a.room_type_id=b.room_type_id ORDER BY room");
+$r=mysqli_query($link, "SELECT * FROM rooms as a LEFT JOIN room_type as b on a.room_type_id=b.room_type_id ORDER BY room");
 $class="file1";
-while ($data=mysql_fetch_assoc($r)) {
+while ($data=mysqli_fetch_assoc($r)) {
 	?>
 	<tr><td bgcolor="#999999" class="small"><?=$data[room]?></td><!--."({$data[room_id]})"-->
 	<?php
@@ -51,8 +51,8 @@ while ($data=mysql_fetch_assoc($r)) {
 		(arrival <= '{$the_day_to_search}' AND '{$the_day_to_search}' < planned_departure) AND	room_id={$data[room_id]} ";
 		//ver("q",$q);
 
-		$r2=mysql_query($q);
-		if (!mysql_num_rows($r2)) {
+		$r2=mysqli_query($link, $q);
+		if (!mysqli_num_rows($r2)) {
 			// FREE ROOM
 			$color="#00CC33";
 			//$color="#FFFFFF";
@@ -61,21 +61,21 @@ while ($data=mysql_fetch_assoc($r)) {
 			$room="";
 		} else {
 			// BUSY ROOM
-			$resident_id=mysql_result($r2,0,"resident_id");
+			$resident_id=mysqli_result($r2,0,"resident_id");
 			if ($last_resident_id!=$resident_id) {
 				$last_resident_id=$resident_id;
 			}
 
-			$room_id=mysql_result($r2,0,"room_id");
+			$room_id=mysqli_result($r2,0,"room_id");
 			$q="SELECT name, surname, color FROM residents WHERE resident_id=$resident_id";
-			$r3=mysql_query($q);
-			$resident_name=@mysql_result($r3,0,"name");
-			$resident_name_surname=@mysql_result($r3,0,"name")." ".@mysql_result($r3,0,"surname");
-			$color=@mysql_result($r3,0,"color");
+			$r3=mysqli_query($link, $q);
+			$resident_name=@mysqli_result($r3,0,"name");
+			$resident_name_surname=@mysqli_result($r3,0,"name")." ".@mysqli_result($r3,0,"surname");
+			$color=@mysqli_result($r3,0,"color");
 
 			$q="SELECT room FROM rooms WHERE room_id=$room_id";
-			$r3=mysql_query($q);
-			$room="<br>(".mysql_result($r3,0,"room").")";
+			$r3=mysqli_query($link, $q);
+			$room="<br>(".mysqli_result($r3,0,"room").")";
 		}
 
 		?><td bgcolor="<?=$color?>" class="small white" align="center" title="<?=$resident_name_surname?>" onClick="document.location='admin.php?pagetoload=application_form.php&resident_id=<?=$resident_id?>&from=rooms_map.php'"><?=substr($resident_name,0,3)?></td><?php

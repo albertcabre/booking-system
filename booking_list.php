@@ -28,13 +28,13 @@ if ($request[operation]=="save") {
 		if ($booking_id) {
 			$q="UPDATE bookings SET arrival='$arrival', planned_departure='$departure', room_id={$request[room_id]}, booking_date='$today'
 			WHERE booking_id=$booking_id";
-			mysql_query($q);
+			mysqli_query($link, $q);
 		} else {
 			$q1="INSERT INTO bookings (arrival, planned_departure, room_id, resident_id, booking_date, status)
 			VALUES ('$arrival', '$departure', '{$request[room_id]}', $resident_id, '$today', 'accepted')";
-			mysql_query($q1);
+			mysqli_query($link, $q1);
 			$q2="UPDATE residents SET status='accepted' WHERE resident_id=$resident_id";
-			mysql_query($q2);
+			mysqli_query($link, $q2);
 		}
 		$result="ok";
 	} else {
@@ -94,8 +94,8 @@ $(function() {
 if ($result=="ok") {
 	// If the room has been booked then whe show a message.
 	$q="SELECT name, surname FROM residents WHERE resident_id=$resident_id";
-	$r=mysql_query($q);
-	$arrData=mysql_fetch_assoc($r);
+	$r=mysqli_query($link, $q);
+	$arrData=mysqli_fetch_assoc($r);
 	?>
 	<TABLE width="900" border="0" height="100%" align="center" cellpadding="0" cellspacing="0" bgcolor="#FFFFFF">
 		<TR>
@@ -115,8 +115,8 @@ if ($result=="ok") {
 	<?php
 	// Searches the information of the resident.
 	if ($request[resident_id]) {
-		$r=mysql_query("SELECT * FROM residents WHERE resident_id={$request[resident_id]}");
-		$arrData=mysql_fetch_assoc($r);
+		$r=mysqli_query($link, "SELECT * FROM residents WHERE resident_id={$request[resident_id]}");
+		$arrData=mysqli_fetch_assoc($r);
 		?><p align="center" class="question">Booking a room for <?=$arrData[name]." ".$arrData[surname]?><br>for these dates</p><?php
 	}
 	?>
@@ -163,11 +163,11 @@ if ($result=="ok") {
 			 "bookings.planned_departure BETWEEN '$fr' AND '$to' OR ".
 			 "(bookings.arrival <= '$fr' AND bookings.planned_departure >= '$to') ) ".
 			 "ORDER BY room";
-		$r=mysql_query($q);
+		$r=mysqli_query($link, $q);
 		if ($error) {
 			?><p class="question" align="center"><?=$error?></p><?php
 		}
-		if (!mysql_num_rows($r)) {
+		if (!mysqli_num_rows($r)) {
 			?><p class="question" align="center">There are no available rooms for this dates</p><?php
 		} else {
 			?>
@@ -175,7 +175,7 @@ if ($result=="ok") {
 			<table align="center" border="0" cellpadding="10" cellspacing="0">
 				<?php
 				$i=0;
-				while ($arrDate=mysql_fetch_assoc($r)) {
+				while ($arrDate=mysqli_fetch_assoc($r)) {
 					if ($i==0) {
 						?>
 						<tr>

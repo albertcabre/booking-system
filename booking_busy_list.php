@@ -58,7 +58,7 @@ if ($request["operation"]=="find") {
         AND b.status='accepted'
         ORDER BY b.planned_departure";
 	//ver("q",$q);
-	$r2=mysql_query($q);
+	$r2=mysqli_query($link, $q);
 	?>
 	<table align="center" cellpadding="2" cellspacing="1">
 	<tr><td class="text_form">Date</td><td></td><td><?=$request[date_from]?></td></tr>
@@ -66,12 +66,12 @@ if ($request["operation"]=="find") {
 	<tr><td class="text_form">Room</td><td></td><td><?=$request[room]?></td></tr>
 	</table>
 	<?php
-	if (mysql_num_rows($r2)) {
+	if (mysqli_num_rows($r2)) {
 		?>
 		<TABLE width="900" border="0" align="center" cellpadding="10" cellspacing="0" bgcolor="#FFFFFF">
 		<TR><TD align="center" class="question">This room is booked for:</td></tr>
 		<?php
-		while ($arrData=mysql_fetch_assoc($r2)) {
+		while ($arrData=mysqli_fetch_assoc($r2)) {
 			?>
 			<TR>
 			<TD align="center"><a href="admin.php?pagetoload=application_form.php&resident_id=<?=$arrData[resident_id]?>&from=residents_list.php" class="table_link2"><?=$arrData["name"]." ".$arrData["surname"]?></a>
@@ -128,7 +128,7 @@ if ($request["operation"]=="find") {
 		$fr = date("Y/m/d", $time);
 		$to = date("Y/m/d", $time);
 
-		$r=mysql_query("SELECT * FROM rooms ORDER BY room");
+		$r=mysqli_query($link, "SELECT * FROM rooms ORDER BY room");
 		if ($error) {
 			?><p class="question" align="center"><?=$error?></p><?php
 		}
@@ -136,7 +136,7 @@ if ($request["operation"]=="find") {
 		<table align="center" border="0" cellpadding="10" cellspacing="0">
 			<?php
 			$i=0;
-			while ($arrDate=mysql_fetch_assoc($r)) {
+			while ($arrDate=mysqli_fetch_assoc($r)) {
 				if ($i==0) {
 					?>
 					<tr>

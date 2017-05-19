@@ -41,10 +41,10 @@ $q = "SELECT residents.resident_id, NAME, surname ".
      "FROM residents LEFT JOIN bookings ON residents.resident_id = bookings.resident_id " .
      "WHERE bookings.status='accepted' AND bookings.done=0 AND bookings.arrival <= '$today' " .
      "GROUP BY residents.resident_id ORDER BY surname, NAME";
-$r = mysql_query($q);
-if (mysql_num_rows($r)) {
+$r = mysqli_query($link, $q);
+if (mysqli_num_rows($r)) {
     $count = 0;
-    while ($arrInfo = mysql_fetch_assoc($r)) {
+    while ($arrInfo = mysqli_fetch_assoc($r)) {
         $count++;
         if ($count == 30) { $count = 1; }
         $total_days = 0;
@@ -60,8 +60,8 @@ if (mysql_num_rows($r)) {
         $q = "SELECT * FROM residents LEFT JOIN bookings ON residents.resident_id = bookings.resident_id " .
             "WHERE bookings.status='accepted' AND residents.resident_id={$arrInfo[resident_id]} " .
             "ORDER BY NAME, surname, bookings.arrival";
-        $r2 = mysql_query($q);
-        while ($arrData = mysql_fetch_assoc($r2)) {
+        $r2 = mysqli_query($link, $q);
+        while ($arrData = mysqli_fetch_assoc($r2)) {
             $arrData = iso_8859_1_converter($arrData);
             if ($count == 1) {
                 // Header
@@ -157,7 +157,7 @@ if (mysql_num_rows($r)) {
             $grand_total_outstanding = $grand_total_outstanding + $outstanding;
         }
 
-        if (mysql_num_rows($r2) > 1) {
+        if (mysqli_num_rows($r2) > 1) {
             $pdf->Cell(50, 4, $count." ".$name, $border);
             $pdf->Cell(8, 4, $total_days, $border, 0, 'R');
             $pdf->Cell(14, 4, number_format($total_total_rent, 2, ".", ","), $border, 0, 'R');
@@ -202,9 +202,9 @@ $pdf->Output();
 function getRoomName($room_id) {
     $room = "";
     if ($room_id) {
-        $r = mysql_query("SELECT * FROM rooms WHERE room_id=$room_id");
-        if (mysql_numrows($r)) {
-            $room = mysql_result($r, 0, "room");
+        $r = mysqli_query($link, "SELECT * FROM rooms WHERE room_id=$room_id");
+        if (mysqli_numrows($r)) {
+            $room = mysqli_result($r, 0, "room");
         }
     }
     return $room;

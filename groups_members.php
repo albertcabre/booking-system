@@ -9,18 +9,18 @@ if ($request[operation]=="save") {
 			$resident_id=substr($key,14);
 			$q="UPDATE residents SET name='$value' WHERE resident_id=$resident_id";
 			//ver("",$q);
-			mysql_query($q);
+			mysqli_query($link, $q);
 		}
 	}
 } elseif ($request[operation]=="delete") {
 	$q1="DELETE FROM residents_groups WHERE resident_group_id={$request[resident_group_id]}";
-	mysql_query($q1);
+	mysqli_query($link, $q1);
 
 	$q2="DELETE FROM residents WHERE resident_id={$request[resident_id]}";
-	mysql_query($q2);
+	mysqli_query($link, $q2);
 
 	$q3="DELETE FROM bookings WHERE resident_id={$request[resident_id]} AND group_id={$request[group_id]}";
-	mysql_query($q3);
+	mysqli_query($link, $q3);
 }
 ?>
 <LINK href="css/netherhall.css" rel="stylesheet" type="text/css">
@@ -40,16 +40,16 @@ function save() {
 }
 </script>
 <?php
-$r=mysql_query("SELECT resident_group_id, residents.resident_id, name, surname
+$r=mysqli_query($link, "SELECT resident_group_id, residents.resident_id, name, surname
 FROM residents_groups LEFT JOIN residents ON residents_groups.resident_id=residents.resident_id
 WHERE residents_groups.group_id={$request[group_id]} ORDER BY name");
-if (mysql_num_rows($r)==0) {
+if (mysqli_num_rows($r)==0) {
 	?><p align="center" class="question">There are no residents in this group</p><?php
 } else {
-	$r2=mysql_query("SELECT name, color FROM groups WHERE group_id={$request[group_id]}");
-	$arrData2=mysql_fetch_assoc($r2);
+	$r2=mysqli_query($link, "SELECT name, color FROM groups WHERE group_id={$request[group_id]}");
+	$arrData2=mysqli_fetch_assoc($r2);
 	?>
-	<p class="question" align="center">Group <?=mysql_result($r2,0,"name")?></p>
+	<p class="question" align="center">Group <?=mysqli_result($r2,0,"name")?></p>
 	<table align="center" border="0" cellpadding="4" cellspacing="0">
 	<form name="myform" method="post" action="admin.php">
 	<input type="hidden" name="pagetoload" value="groups_members.php">
@@ -63,7 +63,7 @@ if (mysql_num_rows($r)==0) {
 	<td></td>
 	</tr>
 	<?php
-	while ($arrData=mysql_fetch_assoc($r)) {
+	while ($arrData=mysqli_fetch_assoc($r)) {
 		?>
 		<tr class="row1">
 		<td class="cell">
