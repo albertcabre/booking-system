@@ -1,0 +1,312 @@
+body {
+	margin-left: 0px;
+	margin-top: 0px;
+	margin-right: 0px;
+	margin-bottom: 0px;
+	background-color: #FFFFFF;
+}
+
+.caixa_01 {
+	font-family: Verdana, Arial, Helvetica, sans-serif;
+	font-size: 9px;
+	border: 1px solid #999999;
+	width: 92px;
+}
+
+.caixa_01_line {
+	font-family: Verdana, Arial, Helvetica, sans-serif;
+	font-size: 9px;
+	border: 1px solid #999999;
+	width: 92px;
+	text-decoration: line-through;
+}
+
+.caixa_02 {
+	font-family: Verdana, Arial, Helvetica, sans-serif;
+	font-size: 9px;
+	border: 1px solid #999999;
+	width: 40px;
+}
+
+.caixa_02_line {
+	font-family: Verdana, Arial, Helvetica, sans-serif;
+	font-size: 9px;
+	border: 1px solid #999999;
+	width: 40px;
+	text-decoration: line-through;
+}
+
+.caixa_03 {
+	font-family: Verdana, Arial, Helvetica, sans-serif;
+	font-size: 9px;
+	border: 1px solid #999999;
+	width: 70px;
+}
+
+.caixa_03_line {
+	font-family: Verdana, Arial, Helvetica, sans-serif;
+	font-size: 9px;
+	border: 1px solid #999999;
+	width: 70px;
+	text-decoration: line-through;
+}
+
+.caixa_04 {
+	font-family: Verdana, Arial, Helvetica, sans-serif;
+	font-size: 12px;
+	width: 96px;
+	height: 18px;
+	border: 1px solid #999999;
+}
+
+.caixa_04_line {
+	font-family: Verdana, Arial, Helvetica, sans-serif;
+	font-size: 12px;
+	width: 96px;
+	height: 18px;
+	border: 1px solid #999999;
+	text-decoration: line-through;
+}
+
+.caixa_05 {
+	font-family: Verdana, Arial, Helvetica, sans-serif;
+	font-size: 11px;
+	height: 18px;
+	border: 1px solid #999999;
+}
+
+.caixa_05_line {
+	font-family: Verdana, Arial, Helvetica, sans-serif;
+	font-size: 11px;
+	height: 18px;
+	border: 1px solid #999999;
+	text-decoration: line-through;
+}
+
+.verdana_20_bold {
+	font-family: Verdana, Arial, Helvetica, sans-serif;
+	font-size: 20px;
+	color: #666666;
+	text-decoration: none;
+	font-weight: bold;
+}
+
+.verdana_20_bold2 {
+	font-family: Verdana, Arial, Helvetica, sans-serif;
+	font-size: 20px;
+	color: #000000;
+	text-decoration: none;
+	font-weight: bold;
+}
+
+.verdana_13_bold {
+	font-family: Verdana, Arial, Helvetica, sans-serif;
+	font-size: 13px;
+	font-weight: bold;
+	color: #000000;
+}
+
+.verdana_9 {
+	font-family: Verdana, Arial, Helvetica, sans-serif;
+	font-size: 9px;
+	font-weight: normal;
+	color: #5F5F5F;
+}
+
+a.verdana_9 {
+	font-family: Verdana, Arial, Helvetica, sans-serif;
+	font-size: 9px;
+	font-weight: normal;
+	color: #FFFFFF;
+	text-decoration: none;
+}
+
+.verdana_bold_9 {
+	font-family: Verdana, Arial, Helvetica, sans-serif;
+	font-size: 9px;
+	font-weight: bold;
+	color: #5F5F5F;
+}
+a.verdana_bold_9 {
+	font-family: Verdana, Arial, Helvetica, sans-serif;
+	font-size: 9px;
+	font-weight: bold;
+	color: #5F5F5F;
+	text-decoration: none;
+}
+/*
+.verdna_11 {
+	font-family: Verdana, Arial, Helvetica, sans-serif;
+	font-size: 11px;
+	font-weight: normal;
+	color: #FF6600;
+}
+*/
+.verdna_11 {
+	font-family: Verdana, Arial, Helvetica, sans-serif;
+	font-size: 11px;
+	font-weight: normal;
+	color: #000000;
+}
+
+.verdna_11_line {
+	font-family: Verdana, Arial, Helvetica, sans-serif;
+	font-size: 11px;
+	font-weight: normal;
+	color: #000000;
+	text-decoration: line-through;
+}
+
+a.verdna_11 {
+	font-family: Verdana, Arial, Helvetica, sans-serif;
+	font-size: 11px;
+	font-weight: normal;
+	color: #666666;
+	text-decoration: underline;
+}
+
+.verdana_11_bold {
+	font-family: Verdana, Arial, Helvetica, sans-serif;
+	font-size: 11px;
+	font-weight: bold;
+	color: #666666;
+}
+
+.verdana_11_bold2 {
+	font-family: Verdana, Arial, Helvetica, sans-serif;
+	font-size: 11px;
+	font-weight: bold;
+	color: #000000;
+}
+
+a.verdana_11_bold {
+	font-family: Verdana, Arial, Helvetica, sans-serif;
+	font-size: 11px;
+	font-weight: bold;
+	color: #666666;
+	text-decoration: underline;
+}
+
+a.verdana_11_bold:hover {
+	font-family: Verdana, Arial, Helvetica, sans-serif;
+	font-size: 11px;
+	font-weight: bold;
+	color: #666666;
+	text-decoration: underline;
+}
+.verdana_10 {
+	font-family: Verdana, Arial, Helvetica, sans-serif;
+	font-size: 10px;
+	color: #666666;
+}
+a.verdana_10 {
+	font-family: Verdana, Arial, Helvetica, sans-serif;
+	font-size: 10px;
+	color: #666666;
+	text-decoration: none;
+}
+.verdana_12_bold {
+	font-family: Verdana, Arial, Helvetica, sans-serif;
+	font-size: 12px;
+	font-weight: bold;
+	color: #666666;
+}
+
+a.verdana_12_bold {
+	font-family: Verdana, Arial, Helvetica, sans-serif;
+	font-size: 12px;
+	font-weight: bold;
+	color: #666666;
+	text-decoration: none;
+}
+
+.verdna_11_bold_blanc {
+	font-family: Verdana, Arial, Helvetica, sans-serif;
+	font-size: 11px;
+	font-weight: bold;
+	color: #FFFFFF;
+}
+a.verdna_11_bold_blanc {
+	font-family: Verdana, Arial, Helvetica, sans-serif;
+	font-size: 11px;
+	font-weight: bold;
+	color: #FFFFFF;
+	text-decoration: none;
+}
+
+.verdna_11_marro {
+	font-family: Verdana, Arial, Helvetica, sans-serif;
+	font-size: 11px;
+	font-weight: normal;
+	color: #5F5F5F;
+}
+
+a.verdna_11_marro {
+	font-family: Verdana, Arial, Helvetica, sans-serif;
+	font-size: 11px;
+	font-weight: normal;
+	color: #5F5F5F;
+	text-decoration: none;
+}
+
+.verdna_9_blanc_blod {
+	font-family: Verdana, Arial, Helvetica, sans-serif;
+	font-size: 10px;
+	font-weight: bold;
+	color: #FFFFFF;
+}
+.verdna_9_blanc {
+	font-family: Verdana, Arial, Helvetica, sans-serif;
+	font-size: 10px;
+	font-weight: normal;
+	color: #FFFFFF;
+}
+.input.admin {
+	font-family: Verdana, Arial, Helvetica, sans-serif;
+	font-size: 11px;
+	font-weight: normal;
+	color: #000000;
+	border: #FF6600 solid 1px;
+}
+.select.admin {
+	font-family: Verdana, Arial, Helvetica, sans-serif;
+	font-size: 11px;
+	font-weight: normal;
+	color: #000000;
+	border: #FF6600 solid 1px;
+}
+.artim {
+	font-family: Verdana, Arial, Helvetica, sans-serif;
+	font-size: 11px;
+	font-weight: normal;
+	color: #000000;
+	border: #FF6600 solid 1px;
+}
+.taula_fons {
+	font-family: Arial, Helvetica, sans-serif;
+	font-size: 12px;
+	background-image: url(imgs/entrada.png);
+	background-repeat: no-repeat;
+}
+.image {
+	cursor: pointer;
+	border: none;
+
+}
+.div_password {
+	position:relative; 
+	width:30px; 
+	height:30px; 
+	left: 32px; 
+	top: 0; 
+	float: left;
+
+}
+.div_alert {
+	width:37px; 
+	height:47px; 
+	position:relative;
+	left: 19px; 
+	float:left;
+	
+}

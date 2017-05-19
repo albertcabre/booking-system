@@ -1,0 +1,35 @@
+function enableField()
+{
+    document.miform.name.disabled=false;
+    document.miform.surname.disabled=false;
+    document.miform.day.disabled=false;
+    document.miform.month.disabled=false;
+    document.miform.year.disabled=false;
+    document.miform.address_line1.disabled=false;
+    document.miform.address_line2.disabled=false;
+    document.miform.postal_code.disabled=false;
+    document.miform.city.disabled=false;
+    document.miform.county.disabled=false;
+    document.miform.country_id.disabled=false;
+    document.miform.nationality.disabled=false;
+    document.miform.telephone.disabled=false;
+    document.miform.mobile.disabled=false;
+    document.miform.ukphone.disabled=false;
+    document.miform.email.disabled=false;
+    document.miform.r.disabled=false;
+    document.miform.marital_status.disabled=false;
+    document.miform.subject.disabled=false;
+    document.miform.college.disabled=false;
+    document.miform.color.disabled=false;
+    document.miform.color.readOnly = true;
+    document.miform.arrival.disabled=false;
+    document.miform.departure.disabled=false;
+    document.miform.mycourse.disabled=false;
+    document.miform.academic_year.disabled=false;
+    document.miform.Save.disabled=false;
+    document.miform.Save.className='boton_save_out';
+    document.miform.Edit.disabled=true;
+    document.miform.Edit.className='boton_edit_disabled';
+    document.miform.paleta.className='visible';
+    document.miform.paleta.disabled=false;
+}

@@ -1,0 +1,40 @@
+function enableField3() {
+    document.miform.school_attended.disabled=false;
+    document.miform.school_examinations.disabled=false;
+    document.miform.universities_attended.disabled=false;
+    document.miform.qualifications_obtained.disabled=false;
+    document.miform.scholarship_help.disabled=false;
+    document.miform.occupation.disabled=false;
+    document.miform.positions.disabled=false;
+    document.miform.name_parent.disabled=false;
+    document.miform.occupation_parent.disabled=false;
+    document.miform.reference1_name.disabled=false;
+    document.miform.reference2_name.disabled=false;
+    document.miform.reference1_address.disabled=false;
+    document.miform.reference2_address.disabled=false;
+    document.miform.reference1_telephone.disabled=false;
+    document.miform.reference2_telephone.disabled=false;
+    document.miform.reference1_email.disabled=false;
+    document.miform.reference2_email.disabled=false;
+    document.miform.reference1_relationship.disabled=false;
+    document.miform.reference2_relationship.disabled=false;
+    document.miform.how_can_contribute.disabled=false;
+    document.miform.how_benefit_you.disabled=false;
+    document.miform.serious_illness.disabled=false;
+    document.miform.special_dietary.disabled=false;
+    document.miform.intended_profession.disabled=false;
+    document.miform.interests.disabled=false;
+    document.miform.sports.disabled=false;
+    document.miform.further_info.disabled=false;
+    document.miform.informed_by.disabled=false;	
+
+    document.miform.Save.className='boton_save_out';
+    document.miform.Save.disabled=false;
+    document.miform.Save2.className='boton_save_out';
+    document.miform.Save2.disabled=false;
+
+    document.miform.Edit.className='boton_edit_disabled';
+    document.miform.Edit.disabled=true;
+    document.miform.Edit2.className='boton_edit_disabled';
+    document.miform.Edit2.disabled=true;	
+}
