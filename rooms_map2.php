@@ -29,7 +29,7 @@ for ($i=0; $i<100; $i++) {
 ?>
 </tr>
 <?php
-$r=mysqli_query($link, "SELECT * FROM rooms as a LEFT JOIN room_type as b on a.room_type_id=b.room_type_id ORDER BY room");
+$r=mysqli_query("SELECT * FROM rooms as a LEFT JOIN room_type as b on a.room_type_id=b.room_type_id ORDER BY room");
 $class="file1";
 while ($data=mysqli_fetch_assoc($r)) {
 	?>
@@ -51,7 +51,7 @@ while ($data=mysqli_fetch_assoc($r)) {
 		(arrival <= '{$the_day_to_search}' AND '{$the_day_to_search}' < planned_departure) AND	room_id={$data[room_id]} ";
 		//ver("q",$q);
 
-		$r2=mysqli_query($link, $q);
+		$r2=mysqli_query($q);
 		if (!mysqli_num_rows($r2)) {
 			// FREE ROOM
 			$color="#00CC33";
@@ -68,13 +68,13 @@ while ($data=mysqli_fetch_assoc($r)) {
 
 			$room_id=mysqli_result($r2,0,"room_id");
 			$q="SELECT name, surname, color FROM residents WHERE resident_id=$resident_id";
-			$r3=mysqli_query($link, $q);
+			$r3=mysqli_query($q);
 			$resident_name=@mysqli_result($r3,0,"name");
 			$resident_name_surname=@mysqli_result($r3,0,"name")." ".@mysqli_result($r3,0,"surname");
 			$color=@mysqli_result($r3,0,"color");
 
 			$q="SELECT room FROM rooms WHERE room_id=$room_id";
-			$r3=mysqli_query($link, $q);
+			$r3=mysqli_query($q);
 			$room="<br>(".mysqli_result($r3,0,"room").")";
 		}
 

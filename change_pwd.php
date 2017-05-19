@@ -5,11 +5,11 @@ validate_user();
 
 if ($request[operation]=="change") {
 	if ($request[pwd1]==$request[pwd2]) {
-		$r=mysqli_query($link, "SELECT word FROM users");
+		$r=mysqli_query("SELECT word FROM users");
 		$pwd=mysqli_result($r,0,"word");
 		if (md5($request[oldpwd])==$pwd) {
 			$new_md5_pwd=md5($request[pwd1]);
-			$q=mysqli_query($link, "UPDATE users SET word='$new_md5_pwd'");
+			$q=mysqli_query("UPDATE users SET word='$new_md5_pwd'");
 			$message="Password changed!";
 		} else {
 			$error="Wrong password!";

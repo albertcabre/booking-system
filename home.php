@@ -196,14 +196,14 @@ function getResidentsDate($dateToSearch, $type) {
         "WHERE (bookings.status='accepted' OR bookings.status='finished') " .
         $condition .
         "GROUP BY NAME, surname";
-    return mysqli_query($link, $q);
+    return mysqli_query($q);
 }
 
 function getOutstanding($resident_id) {
     $q = "SELECT * FROM bookings ".
          "WHERE resident_id=$resident_id AND (status='' OR status IS NULL OR status='accepted') ".
          "ORDER BY arrival DESC";
-    $r = mysqli_query($link, $q);
+    $r = mysqli_query($q);
     $total_outstanding = 0;
     while ($arrAccomodation = mysqli_fetch_assoc($r)) {
         $date_from = mostrar_fecha($arrAccomodation['arrival']);
@@ -231,7 +231,7 @@ function displayBirthdays() {
             "LEFT JOIN countries ON residents.country_id=countries.country_id " .
             "WHERE bookings.status IN ('accepted','finished') " . $condition_search .
             "GROUP BY NAME, surname ORDER BY SUBSTR(date_of_birth,6,5), surname, name DESC";
-    $r = mysqli_query($link, $q);
+    $r = mysqli_query($q);
 
     if (mysqli_num_rows($r)) {
         ?>
@@ -261,7 +261,7 @@ function displayBirthdays() {
                 "AND SUBSTR(date_of_birth,1,10)!='0000-00-00' " .
                 "GROUP BY NAME, surname ORDER BY SUBSTR(date_of_birth,6,5), surname, name DESC LIMIT 1";
         //ver("q",$q);
-        $r = mysqli_query($link, $q);
+        $r = mysqli_query($q);
         while ($arrData = mysqli_fetch_assoc($r)) {
             $age = date("Y") - substr($arrData[date_of_birth], 0, 4);
             $birthday_names.=$arrData[name] . " " . $arrData[surname] . " - " . mostrar_fecha(substr($arrData[date_of_birth], 0, 10)) . " (" . $age . ")<br>";

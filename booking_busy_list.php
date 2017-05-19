@@ -58,7 +58,7 @@ if ($request["operation"]=="find") {
         AND b.status='accepted'
         ORDER BY b.planned_departure";
 	//ver("q",$q);
-	$r2=mysqli_query($link, $q);
+	$r2=mysqli_query($q);
 	?>
 	<table align="center" cellpadding="2" cellspacing="1">
 	<tr><td class="text_form">Date</td><td></td><td><?=$request[date_from]?></td></tr>
@@ -128,7 +128,7 @@ if ($request["operation"]=="find") {
 		$fr = date("Y/m/d", $time);
 		$to = date("Y/m/d", $time);
 
-		$r=mysqli_query($link, "SELECT * FROM rooms ORDER BY room");
+		$r=mysqli_query("SELECT * FROM rooms ORDER BY room");
 		if ($error) {
 			?><p class="question" align="center"><?=$error?></p><?php
 		}

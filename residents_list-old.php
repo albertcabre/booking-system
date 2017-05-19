@@ -41,7 +41,7 @@ function send_mail() {
 <?
 //ver_array("REQUEST",$_REQUEST);
 if ($_REQUEST[name]!="") {
-	$r=mysqli_query($link, "SELECT * FROM residents LEFT JOIN countries on residents.country_id = countries.country_id WHERE name LIKE '%{$_REQUEST[name]}%' OR surname LIKE '%{$_REQUEST[name]}%'");	
+	$r=mysqli_query("SELECT * FROM residents LEFT JOIN countries on residents.country_id = countries.country_id WHERE name LIKE '%{$_REQUEST[name]}%' OR surname LIKE '%{$_REQUEST[name]}%'");	
 } else {
 	$today=date("Y",time())."-".date("m",time())."-".date("d",time());
 	if (!isset($_REQUEST[academic_year]) || $_REQUEST[academic_year]=="current") {
@@ -93,7 +93,7 @@ if ($_REQUEST[name]!="") {
 	GROUP BY NAME, surname 
 	$sort";
 	//ver("q",$q);
-	$r=mysqli_query($link, $q);
+	$r=mysqli_query($q);
 }
 
 if (mysqli_num_rows($r)) {
@@ -127,9 +127,9 @@ if (mysqli_num_rows($r)) {
 			<option value="current" <? if ($_REQUEST[academic_year]=="current") { echo "selected"; } ?> >Current residents</option>
 			<option value="short"   <? if ($_REQUEST[academic_year]=="short")   { echo "selected"; } ?>>Short stays</option>
 		  	<?
-		  	$r2=mysqli_query($link, "SELECT SUBSTR(arrival,1,4) AS year FROM bookings GROUP BY year");
+		  	$r2=mysqli_query("SELECT SUBSTR(arrival,1,4) AS year FROM bookings GROUP BY year");
 		  	while ($arrYears=mysqli_fetch_assoc($r2)) {
-				$r3=mysqli_query($link, "SELECT count(*) AS total FROM bookings WHERE arrival>='{$arrYears[year]}-09-01'");
+				$r3=mysqli_query("SELECT count(*) AS total FROM bookings WHERE arrival>='{$arrYears[year]}-09-01'");
 				if (mysqli_result($r3,0,"total")>0) {
 					$year1=$arrYears[year];
 					$year2=$arrYears[year]+1;
@@ -178,7 +178,7 @@ if (mysqli_num_rows($r)) {
 	<?
 	while ($arrData=mysqli_fetch_assoc($r)) {
 		//ver_array("",$arrData);		
-		//$r2=mysqli_query($link, "SELECT arrival, departure");
+		//$r2=mysqli_query("SELECT arrival, departure");
 		?>
 		<tr class="row1" onMouseOver="this.className='row_selected'" onMouseOut="this.className='row1'">
 		  <td class="cell"></td>
@@ -247,9 +247,9 @@ if (mysqli_num_rows($r)) {
 				<option value="current" <? if ($_REQUEST[academic_year]=="current") { echo "selected"; } ?> >Current residents</option>
 				<option value="short"   <? if ($_REQUEST[academic_year]=="short")   { echo "selected"; } ?>>Short stages</option>
 				<?
-				$r2=mysqli_query($link, "SELECT SUBSTR(arrival,1,4) AS year FROM bookings GROUP BY year");
+				$r2=mysqli_query("SELECT SUBSTR(arrival,1,4) AS year FROM bookings GROUP BY year");
 				while ($arrYears=mysqli_fetch_assoc($r2)) {
-					$r3=mysqli_query($link, "SELECT count(*) AS total FROM bookings WHERE arrival>='{$arrYears[year]}-09-01'");
+					$r3=mysqli_query("SELECT count(*) AS total FROM bookings WHERE arrival>='{$arrYears[year]}-09-01'");
 					if (mysqli_result($r3,0,"total")>0) {
 						$year1=$arrYears[year];
 						$year2=$arrYears[year]+1;

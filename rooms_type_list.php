@@ -5,22 +5,22 @@ require_once('functions.php');
 validate_user();
 
 if ($request[operation]=="delete") {
-	$r=mysqli_query($link, "DELETE FROM room_type WHERE room_type_id={$request[delete_room_type_id]}");
+	$r=mysqli_query("DELETE FROM room_type WHERE room_type_id={$request[delete_room_type_id]}");
 } elseif ($request[operation]=="add") {
-	$r=mysqli_query($link, "INSERT INTO room_type (room_type, rate, sort) VALUES ('{$request[new_room_type]}', '{$request[new_rate]}', '{$request[new_sort]}')");
+	$r=mysqli_query("INSERT INTO room_type (room_type, rate, sort) VALUES ('{$request[new_room_type]}', '{$request[new_rate]}', '{$request[new_sort]}')");
 } elseif ($request[operation]=="save") {
 	foreach ($request as $key => $value) {
 		if (substr($key,0,9)=="room_type") {
 			$room_type_id=substr($key,10);
-			mysqli_query($link, "UPDATE room_type set room_type='$value' WHERE room_type_id=$room_type_id");
+			mysqli_query("UPDATE room_type set room_type='$value' WHERE room_type_id=$room_type_id");
 		}
 		if (substr($key,0,4)=="rate") {
 			$room_type_id=substr($key,5);
-			mysqli_query($link, "UPDATE room_type set rate='$value' WHERE room_type_id=$room_type_id");
+			mysqli_query("UPDATE room_type set rate='$value' WHERE room_type_id=$room_type_id");
 		}
 		if (substr($key,0,4)=="sort") {
 			$room_type_id=substr($key,5);
-			mysqli_query($link, "UPDATE room_type set sort='$value' WHERE room_type_id=$room_type_id");
+			mysqli_query("UPDATE room_type set sort='$value' WHERE room_type_id=$room_type_id");
 		}
 	}
 }
@@ -95,7 +95,7 @@ if ($request[op]=="e") {
 ?>
 </tr>
 <?php
-$r=mysqli_query($link, "SELECT * FROM room_type ORDER BY sort");
+$r=mysqli_query("SELECT * FROM room_type ORDER BY sort");
 $class="file1";
 while ($data=mysqli_fetch_assoc($r)) {
 	?>

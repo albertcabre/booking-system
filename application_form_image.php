@@ -13,7 +13,7 @@ if ($_FILES[picture] != "") {
     if ($arrError[error] == 0) {
         $file_uploaded = TRUE;
         $q = "UPDATE residents SET picture='{$arrError[message]}' WHERE resident_id=$request[resident_id]";
-        mysqli_query($link, $q);
+        mysqli_query($q);
     }
 }
 ?>
@@ -32,7 +32,7 @@ if ($_FILES[picture] != "") {
 <br>
 <?php
 if ($request[resident_id]) {
-    $r = mysqli_query($link, "SELECT * FROM residents WHERE resident_id=$request[resident_id]");
+    $r = mysqli_query("SELECT * FROM residents WHERE resident_id=$request[resident_id]");
     $arrData = mysqli_fetch_assoc($r);
     $arrData = utf8_converter($arrData);
 }
