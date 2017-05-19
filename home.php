@@ -183,6 +183,7 @@ function departures($dateToSearch) {
 }
 
 function getResidentsDate($dateToSearch, $type) {
+    global $link;
     $condition = "AND bookings.arrival='$dateToSearch'";
     if ($type == 'departures') {
         $condition = "AND bookings.planned_departure='$dateToSearch'";
