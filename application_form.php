@@ -60,7 +60,7 @@ if ($request[operation] == "save_deposit") {
         $q = "INSERT INTO residents (name, surname, address_line1, address_line2, postal_code, city, county, country_id, nationality, r, telephone, mobile, ukphone, email, date_of_birth, marital_status, smoker, college, subject, course, academic_year, arrival, departure, color, application_date)
 		VALUES (\"$request[name]\", \"$request[surname]\", \"$request[address_line1]\", \"$request[address_line2]\", \"$request[postal_code]\", \"$request[city]\", \"$request[county]\", \"$request[country_id]\", \"$request[nationality]\", \"$request[r]\", \"$request[telephone]\", \"$request[mobile]\", \"$request[ukphone]\", \"$request[email]\", \"$date_of_birth\", \"$request[marital_status]\", \"$request[smoker]\", \"$request[college]\", \"$request[subject]\", \"$request[mycourse]\", \"$request[academic_year]\", \"$arriv\", \"$depar\", \"" . random_color() . "\", \"$today\")";
         mysqli_query($link, $q);
-        $resident_id = mysqli_insert_id();
+        $resident_id = mysqli_insert_id($link);
         $request[resident_id] = $resident_id;
     }
 }

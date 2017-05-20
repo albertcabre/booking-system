@@ -12,7 +12,7 @@ if ($request[operation] == "book") {
 
     $q = "INSERT INTO groups (name,color,arrival,departure) VALUES ('{$request[group_name]}', '$color' , '$arrival', '$departure')";
     $r = mysqli_query($link, $q);
-    $group_id = mysqli_insert_id();
+    $group_id = mysqli_insert_id($link);
 
     foreach ($request as $key => $value) {
         //ver("",$key);
@@ -28,7 +28,7 @@ if ($request[operation] == "book") {
             $q1 = "INSERT INTO residents (name,color, arrival, departure, application_date, status) " .
                     "VALUES ('{$request[group_name]} $nr', '$color', '$arrival', '$departure', '$today', 'accepted')";
             mysqli_query($link, $q1);
-            $resident_id = mysqli_insert_id();
+            $resident_id = mysqli_insert_id($link);
 
             $q2 = "INSERT INTO bookings (arrival, planned_departure, departure, room_id, resident_id, status, booking_date, group_id) " .
                     "VALUES ('$arrival', '$departure', '$departure', '$room_id', $resident_id, 'accepted', '$today', $group_id)";
@@ -168,8 +168,8 @@ function book() {
                                 ?>
                                 <td align="center" class="main_message">
                                     <span class="main_message"><?= $arrData[room] ?></span><br>
-                                    <input type="checkbox" name="room<?= $arrData[room_id] ?>" value="<?= $arrData[room_id] ?>" 
-                                        <?php 
+                                    <input type="checkbox" name="room<?= $arrData[room_id] ?>" value="<?= $arrData[room_id] ?>"
+                                        <?php
                                         if ($request[$current_room]) {
                                             echo "checked";
                                         } ?>>
