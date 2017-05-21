@@ -314,7 +314,7 @@ else
 				$r2=mysqli_query($link, "SELECT * FROM rooms WHERE room_id={$arrAccomodation[room_id]}");
 				$room = "";
 				
-				if (mysqli_numrows($r2)) 
+				if (mysqli_num_rows($r2)) 
 				{
 					$room=mysqli_result($r2,0,"room");
                 }

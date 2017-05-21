@@ -299,7 +299,7 @@ $from_page="application_form.php&resident_id={$request[resident_id]}&from=reside
                 //ver("q",$q);
                 $r=mysqli_query($link, $q);
                 $arrSwapRooms = array();
-                if (mysqli_numrows($r)) {
+                if (mysqli_num_rows($r)) {
                     while ($arrData=mysqli_fetch_assoc($r)) {
                         // See for each one of these rooms whether we can swap.
                         $q2="SELECT booking_id, room_id, arrival AS arr, planned_departure AS dep, resident_id FROM bookings ".

@@ -204,7 +204,7 @@ function getRoomName($room_id) {
     $room = "";
     if ($room_id) {
         $r = mysqli_query($link, "SELECT * FROM rooms WHERE room_id=$room_id");
-        if (mysqli_numrows($r)) {
+        if (mysqli_num_rows($r)) {
             $room = mysqli_result($r, 0, "room");
         }
     }

@@ -16,7 +16,7 @@ while ($arrData = mysqli_fetch_assoc($r2)) {
     if ($arrData[room_id]) {
         $r3 = mysqli_query($link, "SELECT * FROM rooms WHERE room_id={$arrData[room_id]}");
         $room = "";
-        if (mysqli_numrows($r3)) {
+        if (mysqli_num_rows($r3)) {
             $room = mysqli_result($r3, 0, "room");
         }
     }

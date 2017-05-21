@@ -230,8 +230,8 @@ function subtract_dates($dFecIni, $dFecFin) {
     $dFecFin = str_replace("-", "", $dFecFin);
     $dFecFin = str_replace("/", "", $dFecFin);
 
-    ereg("([0-9]{1,2})([0-9]{1,2})([0-9]{2,4})", $dFecIni, $aFecIni);
-    ereg("([0-9]{1,2})([0-9]{1,2})([0-9]{2,4})", $dFecFin, $aFecFin);
+    preg_match("/([0-9]{1,2})([0-9]{1,2})([0-9]{2,4})/", $dFecIni, $aFecIni);
+    preg_match("/([0-9]{1,2})([0-9]{1,2})([0-9]{2,4})/", $dFecFin, $aFecFin);
 
     $date1 = mktime(0, 0, 0, $aFecIni[2], $aFecIni[1], $aFecIni[3]);
     $date2 = mktime(0, 0, 0, $aFecFin[2], $aFecFin[1], $aFecFin[3]);
@@ -251,7 +251,7 @@ function button($action, $title) {
 }
 
 function valid_email($email) {
-    if (ereg("^[_a-zA-Z0-9-]+(\.[_a-zA-Z0-9-]+)*@([_a-zA-Z0-9-]+\.)*[a-zA-Z0-9-]{2,200}\.[a-zA-Z]{2,6}$", $email)) {
+    if (preg_match("/^[_a-zA-Z0-9-]+(\.[_a-zA-Z0-9-]+)*@([_a-zA-Z0-9-]+\.)*[a-zA-Z0-9-]{2,200}\.[a-zA-Z]{2,6}$/", $email)) {
         return true;
     } else {
         return false;
@@ -271,7 +271,7 @@ function valid_date($strdate) {
         } else {
             $pos = strpos($strdate, "/");
             $date = substr($strdate, 0, ($pos));
-            $result = ereg("^[0-9]+$", $date, $trashed);
+            $result = preg_match("/^[0-9]+$/", $date, $trashed);
             if (!($result)) {
                 return false;
             } else {
@@ -283,13 +283,13 @@ function valid_date($strdate) {
             if (($month <= 0)OR ( $month > 12)) {
                 return false;
             } else {
-                $result = ereg("^[0-9]+$", $month, $trashed);
+                $result = preg_match("/^[0-9]+$/", $month, $trashed);
                 if (!($result)) {
                     return false;
                 }
             }
             $year = substr($strdate, ($pos + 4), strlen($strdate));
-            $result = ereg("^[0-9]+$", $year, $trashed);
+            $result = preg_match("/^[0-9]+$/", $year, $trashed);
             if (!($result)) {
                 return false;
             } else {
@@ -322,5 +322,25 @@ function iso_8859_1_converter($array)
     });
 
     return $array;
+}
+
+/**
+ * As of PHP 5.5, the MySQL functions are deprecated and are removed in PHP 7.
+ * mysql_result() is used to write less code when your database query is returning
+ * only a single row (LIMIT 1) and/or a single column.
+ * $output = mysql_result($result,0);
+ * Pretty simple and straightforward. To replicate this in MySQLi, the following
+ * function can be used:
+ */
+function mysqli_result($res,$row=0,$col=0){
+    $numrows = mysqli_num_rows($res);
+    if ($numrows && $row <= ($numrows-1) && $row >=0){
+        mysqli_data_seek($res,$row);
+        $resrow = (is_numeric($col)) ? mysqli_fetch_row($res) : mysqli_fetch_assoc($res);
+        if (isset($resrow[$col])){
+            return $resrow[$col];
+        }
+    }
+    return false;
 }
 ?>
