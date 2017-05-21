@@ -19,12 +19,20 @@ validate_user();
         if ($pagetoload == "") {
             $pagetoload = "home.php";
         }
+
+        $test_system = "";
+        $background_color = "#0395CC";
+        if (strstr(filter_input(INPUT_SERVER, 'HTTP_HOST'), "localhost") or
+            strstr(filter_input(INPUT_SERVER, 'PHP_SELF'), "/test")) {
+            $test_system = " - TEST SYSTEM";
+            $background_color = "#FF0000";
+        }
         ?>
         <table width="1230" align="center" border="0" cellpadding="0" cellspacing="0">
             <tr>
-                <td style="height: 20px; background-color: #0395CC; color: white; font-weight: bold; text-align: right; padding-right: 5px">
-                    <div style="padding-left: 5px; float: left">Netherhall House</div>
-                    Netherhall House, <?php echo $_SESSION['worldresidents_username']; ?>
+                <td style="height: 20px; background-color:<?=$background_color?>; color: white; font-weight: bold; text-align: right; padding-right: 5px">
+                    <div style="padding-left: 5px; float: left">Netherhall House<?=$test_system?></div>
+                    <?php echo $_SESSION['worldresidents_username']; ?>
                 </td>
             </tr>
             <tr>
